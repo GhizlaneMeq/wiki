@@ -1,0 +1,12 @@
+body {
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.dark {
+    background-color: #1a202c;
+    color: #d1d5db;
+}
+
+h1 {
+    font-family: 'Volkhov', serif;
+}

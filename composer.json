@@ -1,0 +1,17 @@
+{
+    "name": "youcode/wiki",
+    "autoload": {
+        "psr-4": {
+            "Youcode\\Wiki\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "GhizlaneMeq",
+            "email": "meqdarghizlane@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

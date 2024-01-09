@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -27,42 +27,7 @@
 
 <body class="dark:bg-gray-800 dark:text-white transition duration-500 ease-in-out">
 
-    <nav class="bg-white p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="#" class="text-xl font-bold">
-                <h1 class="text-4xl">Wiki<span class="text-green-300">™</span></h1>
-            </a>
-
-            <button id="mobileMenuBtn" class="text-green-500 block lg:hidden focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
-                    </path>
-                </svg>
-            </button>
-
-            <ul class="hidden lg:flex space-x-4">
-                <li><a href="#" class="text-green-500 hover:underline">Home</a></li>
-                <li><a href="#" class="text-green-500 hover:underline">About</a></li>
-                <li><a href="#" class="text-green-500 hover:underline">Categories</a></li>
-                <li><a href="#" class="text-green-500 hover:underline">Contact</a></li>
-            </ul>
-
-            <div class="flex items-center">
-                <label for="darkModeToggle" class="mr-4 text-green-500">Dark Mode</label>
-                <input type="checkbox" id="darkModeToggle" class="form-checkbox h-6 w-6 text-green-500" checked>
-            </div>
-        </div>
-
-        <div id="mobileMenu" class="hidden lg:hidden">
-            <ul class="flex flex-col space-y-2">
-                <li><a href="#" class="text-green-500 hover:underline">Home</a></li>
-                <li><a href="#" class="text-green-500 hover:underline">About</a></li>
-                <li><a href="#" class="text-green-500 hover:underline">Categories</a></li>
-                <li><a href="#" class="text-green-500 hover:underline">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+    <?php include 'includes/nav.php' ?>
 
     <div class="container mx-auto p-8 flex flex-col lg:flex-row">
         <div class="lg:w-1/2 mb-8 lg:mb-0 order-2 lg:order-1">
@@ -78,7 +43,7 @@
         </div>
 
         <div class="lg:w-1/2 order-1 lg:order-2 mt-4 lg:mt-0">
-            <img src="./img/Screenshot_2024-01-07_184706-removebg-preview.png" alt="Home Image"
+            <img src="img/Screenshot_2024-01-07_184706-removebg-preview.png" alt="Home Image"
                 class="w-full rounded-lg max-w-sm mx-auto">
         </div>
 
@@ -286,7 +251,163 @@
 
     </div>
 
-<script src="../public/js/index.js"></script>
+<script src="public/js/index.js"></script>
 </body>
 
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="font-sans bg-gray-100">
+<?php include 'includes/nav.php' ?>
+    
+    <div class="flex">
+
+        <div class="w-1/4 bg-green-300 p-4 fixed h-full overflow-y-auto">
+            <h2 class="text-lg font-semibold mb-4">Categories</h2>
+        
+            <div class="flex flex-wrap">
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Category 1</p>
+            </div>
+
+            <h2 class="text-lg font-semibold my-4">Tags</h2>
+          
+            <div class="flex flex-wrap">
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+            <p class="border bg-white text-green px-2 py-1 mr-2 mb-2">Tag</p>
+           
+            
+                
+            </div>
+        </div>
+
+        <div class="ml-96 mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+           
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="public/img/istockphoto-1398794748-1024x1024.jpg" alt="Image 1" class="w-full h-32 object-cover mb-4">
+                <h3 class="text-lg font-semibold mb-2">Introduction to Programming</h3>
+                <p class="text-gray-600 text-sm mb-2">09/01/2024</p>
+                <p class="text-gray-700"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, incidunt fugiat fugit quibusdam quam molestiae minima dolores cumque nostrum ea cupiditate min</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="public/img/istockphoto-1398794748-1024x1024.jpg" alt="Image 1" class="w-full h-32 object-cover mb-4">
+                <h3 class="text-lg font-semibold mb-2">Introduction to Programming</h3>
+                <p class="text-gray-600 text-sm mb-2">09/01/2024</p>
+                <p class="text-gray-700"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, incidunt fugiat fugit quibusdam quam molestiae minima dolores cumque nostrum ea cupiditate min</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="public/img/istockphoto-1398794748-1024x1024.jpg" alt="Image 1" class="w-full h-32 object-cover mb-4">
+                <h3 class="text-lg font-semibold mb-2">Introduction to Programming</h3>
+                <p class="text-gray-600 text-sm mb-2">09/01/2024</p>
+                <p class="text-gray-700"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, incidunt fugiat fugit quibusdam quam molestiae minima dolores cumque nostrum ea cupiditate min</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="public/img/istockphoto-1398794748-1024x1024.jpg" alt="Image 1" class="w-full h-32 object-cover mb-4">
+                <h3 class="text-lg font-semibold mb-2">Introduction to Programming</h3>
+                <p class="text-gray-600 text-sm mb-2">09/01/2024</p>
+                <p class="text-gray-700"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, incidunt fugiat fugit quibusdam quam molestiae minima dolores cumque nostrum ea cupiditate min</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="public/img/istockphoto-1398794748-1024x1024.jpg" alt="Image 1" class="w-full h-32 object-cover mb-4">
+                <h3 class="text-lg font-semibold mb-2">Introduction to Programming</h3>
+                <p class="text-gray-600 text-sm mb-2">09/01/2024</p>
+                <p class="text-gray-700"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, incidunt fugiat fugit quibusdam quam molestiae minima dolores cumque nostrum ea cupiditate min</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="public/img/istockphoto-1398794748-1024x1024.jpg" alt="Image 1" class="w-full h-32 object-cover mb-4">
+                <h3 class="text-lg font-semibold mb-2">Introduction to Programming</h3>
+                <p class="text-gray-600 text-sm mb-2">09/01/2024</p>
+                <p class="text-gray-700"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, incidunt fugiat fugit quibusdam quam molestiae minima dolores cumque nostrum ea cupiditate min</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="public/img/istockphoto-1398794748-1024x1024.jpg" alt="Image 1" class="w-full h-32 object-cover mb-4">
+                <h3 class="text-lg font-semibold mb-2">Introduction to Programming</h3>
+                <p class="text-gray-600 text-sm mb-2">09/01/2024</p>
+                <p class="text-gray-700"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, incidunt fugiat fugit quibusdam quam molestiae minima dolores cumque nostrum ea cupiditate min</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <img src="public/img/istockphoto-1398794748-1024x1024.jpg" alt="Image 1" class="w-full h-32 object-cover mb-4">
+                <h3 class="text-lg font-semibold mb-2">Introduction to Programming</h3>
+                <p class="text-gray-600 text-sm mb-2">09/01/2024</p>
+                <p class="text-gray-700"> Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nesciunt, incidunt fugiat fugit quibusdam quam molestiae minima dolores cumque nostrum ea cupiditate min</p>
+            </div>
+            
+
+
+        </div>
+    </div>
+
+</body>
 </html>
+
+
+
+
+
+
+
+
+

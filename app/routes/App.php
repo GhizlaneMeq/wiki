@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once '../../vendor/autoload.php';
 
 use App\routes\Router;
@@ -13,8 +16,39 @@ $router->setRoutes([
     'GET' => [
 
         '' => ['HomeController', 'index'],
+        'home' => ['HomeController', 'index'],
+        'dash' => ['AuthorDashController', 'dash'],
+        'register' => ['AuthController', 'redirectToSignup'],
+        'login' => ['AuthController', 'redirectToSignin'],
+        'logout' => ['AuthController', 'logout'],
+        'my-wikis' => ['WikiController', 'index'],
+        'add-wiki' => ['AuthorDashController', 'addWiki'],
+        'update-wiki' => ['WikiController', 'updateWiki'],
+        'delete-wiki'=> ['WikiController', 'deleteWiki'],
+        'see-details-wiki'=> ['WikiController', 'seeMoreWiki'],
+        'admin-dashboard'=> ['AdminDashController', 'index'],
+        'category'=> ['CategoryController', 'index'],
+        'tag'=> ['TagController', 'index'],
+        'delete-tag'=> ['TagController', 'deleteTag'],
+        'update-tag'=> ['TagController', 'updateTag'],
+        'wiki-details'=> ['AdminDashController', 'wikiDetails'],
+        'my-profile'=> ['AuthorDashController', 'updateProfile'],
+
     ],
     'POST' => [
+        'submit-register' =>['AuthController','signup'],
+        'submit-login' =>['AuthController','signin'],
+        'add-wik' => ['WikiController', 'addWiki'],
+        'submit-update-wiki' => ['WikiController', 'SubmitUpdateWiki'],
+        'add-category'=> ['CategoryController', 'addCategory'],
+        'submit-update-category'=> ['CategoryController', 'submitUpdateCategory'],
+        'add-tag'=> ['TagController', 'addTag'],
+        'submit-update-tag'=> ['TagController', 'submitUpdateTag'],
+        'archive-wiki'=> ['WikiController', 'archiveWiki'],
+        'disarchive-wiki'=> ['WikiController', 'disarchiveWiki'],
+        'block-user'=> ['AdminDashController', 'BlockUser'],
+        'submit-update-profile'=> ['AuthorDashController', 'submitUpdate'],
+
 
     ]
 ]);

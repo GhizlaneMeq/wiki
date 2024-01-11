@@ -3,7 +3,8 @@
 namespace App\models;
 
 use App\database\Database;
-use PDO, PDOException;
+use PDO;
+use PDOException;
 use App\entities\Tag;
 
 class TagModel
@@ -62,13 +63,10 @@ class TagModel
         return null;
     }
 
-    public function create($tag)
+    public function create($label)
     {
-        $statement = $this->getDatabase()->getConnection()->prepare("INSERT INTO `tags` (label) 
-            VALUES (:label)");
-
-        $statement->bindValue(':label', $tag->getLabel());
-
+        $statement = $this->getDatabase()->getConnection()->prepare("INSERT INTO `tags`(`label`) VALUES (:label)");
+        $statement->bindValue(':label', $label);
 
         try {
             $statement->execute();
@@ -79,10 +77,7 @@ class TagModel
 
     public function update($tag)
     {
-        $statement = $this->getDatabase()->getConnection()->prepare("UPDATE `tags` 
-            SET label = :label 
-            WHERE id = :id");
-
+        $statement = $this->getDatabase()->getConnection()->prepare("UPDATE `tags` SET label = :label WHERE id = :id");
         $statement->bindValue(':id', $tag->getId());
         $statement->bindValue(':label', $tag->getLabel());
 

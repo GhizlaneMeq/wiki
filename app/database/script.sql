@@ -25,17 +25,18 @@ CREATE TABLE categories (
     image VARCHAR(255) NOT NULL,
     description TEXT NULL
 );
+ALTER TABLE `categories` ADD `date_creation` TIMESTAMP NOT NULL AFTER `description`;
 
 CREATE TABLE tags (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    label VARCHAR(255) NOT NULL,
-    image VARCHAR(255) NOT NULL
+    label VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE wikis (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     content TEXT NOT NULL,
+    image VARCHAR(255) NOT NULL,
     deleted_at DATE,
     archived BOOLEAN DEFAULT false,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -44,6 +45,7 @@ CREATE TABLE wikis (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
+
 
 CREATE TABLE wikis_tags (
     wiki_id INT,

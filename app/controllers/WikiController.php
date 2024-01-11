@@ -48,7 +48,7 @@ class WikiController
                 $wikiModel->addTag($wikiId, $tagId);
             }
 
-            header("Location: display-wiki");
+            header("Location: my-wikis");
             exit();
 
         } else {
@@ -138,7 +138,7 @@ class WikiController
             $wikiModel = new WikiModel();
             $wikiModel->delete($wikiId);
 
-            header("Location:display-wiki");
+            header("Location:my-wikis");
             exit();
         } else {
             header("Location:display-wiki&error=Invalid wiki ID");
@@ -152,6 +152,7 @@ class WikiController
             $userSId = $_SESSION["userId"];
             $user = new UserModel();
             $userData = $user->getUserById($userSId);
+            $userName= $userData->getName();
         } else {
             $userData = null;
         }

@@ -38,106 +38,107 @@
 
 <body>
 
+    <?php include '../../views/includes/nav.php' ?>
+
     <div class="flex">
 
-        <?php include '../../views/includes/sidebar.php' ?>
 
 
 
+        <section class="max-w-4xl p-6 mx-auto bg-blue-800 rounded-md shadow-md dark:bg-gray-800 mt-20">
+            <h1 class="text-xl font-bold text-white capitalize dark:text-white">Add Wiki</h1>
+            <form action="add-wik" method="post" enctype="multipart/form-data">
+                <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
+                    <div>
+                        <label class="text-white dark:text-gray-200" for="title">Title</label>
+                        <input id="title" type="text" name="title"
+                            class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                    </div>
+                    <div>
+                        <label class="text-white dark:text-gray-200" for="category">Select Category</label>
+                        <select name="category"
+                            class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?php echo $category->getId(); ?>">
+                                    <?php echo $category->getName(); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
-        <div class="mt-4">
+                    <div>
+                        <label class="text-white dark:text-gray-200" for="tag">Select Tags</label>
+                        <select name="tags[]" multiple
+                            class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
+                            <?php foreach ($tags as $tag): ?>
+                                <option value="<?php echo $tag->getId(); ?>">
+                                    <?php echo $tag->getLabel(); ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
 
-
-            <section class="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 mt-20">
-                <h1 class="text-xl font-bold text-white capitalize dark:text-white">Add Wiki</h1>
-                <form action="add-wik" method="post">
-                    <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
-                        <div>
-                            <label class="text-white dark:text-gray-200" for="title">Title</label>
-                            <input id="title" type="text" name="title"
-                                class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-                        </div>
-                        <div>
-                            <label class="text-white dark:text-gray-200" for="category">select Category</label>
-                            <select name="category"
-                                class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-                                <option>technologie</option>
-                                <option>History</option>
-                                <option>Science</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="text-white dark:text-gray-200" for="tag">select tag</label>
-                            <select name="tag"
-                                class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-                                <option>technologie</option>
-                                <option>History</option>
-                                <option>Science</option>
-                            </select>
-                        </div>
-
-
-                        <div>
-                            <label class="text-white dark:text-gray-200" for="passwordConfirmation">Text Area</label>
-                            <textarea id="textarea" type="textarea" name="content"
-                                class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"></textarea>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-white">
-                                Image
-                            </label>
-                            <div
-                                class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                                <div class="space-y-1 text-center">
-                                    <label for="file-upload"
-                                        class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                        <span class="">Upload a file</span>
-                                        <input name="img" id="file-upload" name="file-upload" type="file"
-                                            class="sr-only">
-                                    </label>
-                                    <p class="pl-1 text-white">or drag and drop</p>
-                                    <p class="text-xs text-white">
-                                        PNG, JPG, GIF up to 10MB
-                                    </p>
-                                </div>
+                    <div>
+                        <label class="text-white dark:text-gray-200" for="passwordConfirmation">Text Area</label>
+                        <textarea id="textarea" type="textarea" name="content"
+                            class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-white">
+                            Image
+                        </label>
+                        <div
+                            class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <label for="file-upload"
+                                    class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                    <span class="">Upload a file</span>
+                                    <input name="image" id="file-upload" name="file-upload" type="file" class="sr-only">
+                                </label>
+                                <p class="pl-1 text-white">or drag and drop</p>
+                                <p class="text-xs text-white">
+                                    PNG, JPG, GIF up to 10MB
+                                </p>
                             </div>
                         </div>
-
-                        <div class="mt-4">
-                            <label class="text-white dark:text-gray-200" for="uploaded-image">Uploaded Image</label>
-                            <img id="uploaded-image" src="" alt="Uploaded Image" class="mt-2 w-60 h-36">
-                        </div>
                     </div>
 
-                    <div class="flex justify-end mt-6">
-                        <button type="submit"
-                            class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">Save</button>
+                    <div class="mt-4">
+                        <label class="text-white dark:text-gray-200" for="uploaded-image">Uploaded Image</label>
+                        <img id="uploaded-image" src="" alt="Uploaded Image" class="mt-2 w-60 h-36">
                     </div>
-                </form>
-            </section>
+                </div>
+
+                <div class="flex justify-end mt-6">
+                    <button type="submit"
+                        class="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-pink-500 rounded-md hover:bg-pink-700 focus:outline-none focus:bg-gray-600">Save</button>
+                </div>
+            </form>
+        </section>
+
+        <script>
+            const fileInput = document.getElementById('file-upload');
+            const uploadedImage = document.getElementById('uploaded-image');
+
+            fileInput.addEventListener('change', function () {
+                const file = fileInput.files[0];
+
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        uploadedImage.src = e.target.result;
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+        </script>
+
+    </div>
 
 
 
-            <script>
-
-                const fileInput = document.getElementById('file-upload');
-                const uploadedImage = document.getElementById('uploaded-image');
-
-                fileInput.addEventListener('change', function () {
-                    const file = fileInput.files[0];
-
-                    if (file) {
-                        const reader = new FileReader();
-
-                        reader.onload = function (e) {
-                            uploadedImage.src = e.target.result;
-                        };
-
-                        reader.readAsDataURL(file);
-                    }
-                });
-            </script>
 </body>
 
 </html>

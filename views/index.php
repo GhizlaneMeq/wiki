@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +9,7 @@
     <meta name="description" content="">
 
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-   
+
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
 
@@ -18,12 +18,13 @@
         }
     </style>
 
-   <!--  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <!--  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script> -->
 </head>
+
 <body class="bg-white font-family-karla">
 
-   <?php include 'includes/nav.php' ?>
+    <?php include 'includes/nav.php' ?>
 
     <!-- Text Header -->
     <header class="w-full container mx-auto flex flex-col lg:flex-row mt-24 mb-11">
@@ -40,61 +41,78 @@
         </div>
 
         <div class="lg:w-1/2 order-1 lg:order-2 mt-4 lg:mt-0 ">
-            <img src="public/img/home.jpg" alt="Home Image"
-                class="w-full rounded-lg max-w-sm mx-auto" style="height: 250px;" >
+            <img src="public/img/home.jpg" alt="Home Image" class="w-full rounded-lg max-w-sm mx-auto"
+                style="height: 250px;">
         </div>
     </header>
 
     <!-- Topic Nav -->
     <nav class="w-full py-4 border-t border-b bg-gray-100" x-data="{ open: false }">
         <div class="block sm:hidden">
-            <a
-                href="#"
+            <a href="#"
                 class="block md:hidden text-base font-bold uppercase text-center flex justify-center items-center"
-                @click="open = !open"
-            >
+                @click="open = !open">
                 Topics <i :class="open ? 'fa-chevron-down': 'fa-chevron-up'" class="fas ml-2"></i>
             </a>
         </div>
         <div :class="open ? 'block': 'hidden'" class="w-full flex-grow sm:flex sm:items-center sm:w-auto">
-            <div class="w-full container mx-auto flex flex-col sm:flex-row items-center justify-center text-sm font-bold uppercase mt-0 px-6 py-2">
-                <?php foreach($Recentcategories as $recentCategory): ?>
-                <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2"><?=$recentCategory->getName() ?></a>
+            <div
+                class="w-full container mx-auto flex flex-col sm:flex-row items-center justify-center text-sm font-bold uppercase mt-0 px-6 py-2">
+                <?php foreach ($Recentcategories as $recentCategory): ?>
+                    <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2">
+                        <?= $recentCategory->getName() ?>
+                    </a>
                 <?php endforeach ?>
             </div>
         </div>
     </nav>
 
 
-    <div class="container mx-auto flex flex-wrap py-6">
+    <div class="container mx-auto flex flex-wrap py-6" id="wikis">
 
         <section class="w-full md:w-2/3 flex flex-col items-center px-3">
-            
-        <?php foreach($wikis as $wiki): ?>
-            <article class="flex flex-col shadow my-4">
-                
-                    <img style="width: 800px; height:300px;" class="hover:opacity-75"  src="<?php echo $wiki->getImage(); ?>">
-                
-                <div class="bg-white flex flex-col justify-start p-6">
-                    <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4"><?php echo $wiki->getCategoryId(); ?></a>
-                    <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4"><?php echo $wiki->getTitle(); ?></a>
-                    <p href="#" class="text-sm pb-3">
-                        By <a href="#" class="font-semibold hover:text-gray-800"><?php echo $wiki->getUserId(); ?></a>, Published on  <?php echo $wiki->getDateCreation(); ?>
-                    </p>
-                    <a href="#" class="pb-6"><?php echo implode(' ', array_slice(explode(' ', $wiki->getContent()), 0, 30)); ?>...</a>
-                    <a href="see-details-wiki?id=<?php echo $wiki->getId(); ?>" class="uppercase text-gray-800 hover:text-black">Continue Reading <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </article>
-        <?php endforeach ?>
 
-            
+            <?php foreach ($wikis as $wiki): ?>
+                <article class="flex flex-col shadow my-4">
 
-            
+                    <img style="width: 800px; height:300px;" class="hover:opacity-75"
+                        src="<?php echo $wiki->getImage(); ?>">
+
+                    <div class="bg-white flex flex-col justify-start p-6">
+                        <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">
+                            <?php echo $wiki->getCategoryId(); ?>
+                        </a>
+                        <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">
+                            <?php echo $wiki->getTitle(); ?>
+                        </a>
+                        <p href="#" class="text-sm pb-3">
+                            By <a href="#" class="font-semibold hover:text-gray-800">
+                                <?php echo $wiki->getUserId(); ?>
+                            </a>, Published on
+                            <?php echo $wiki->getDateCreation(); ?>
+                        </p>
+                        <a href="#" class="pb-6">
+                            <?php echo implode(' ', array_slice(explode(' ', $wiki->getContent()), 0, 30)); ?>...
+                        </a>
+                        <a href="see-details-wiki?id=<?php echo $wiki->getId(); ?>"
+                            class="uppercase text-gray-800 hover:text-black">Continue Reading <i
+                                class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            <?php endforeach ?>
+
+
+
+
 
             <div class="flex items-center py-8">
-                <a href="#" class="h-10 w-10 bg-blue-800 hover:bg-blue-600 font-semibold text-white text-sm flex items-center justify-center">1</a>
-                <a href="#" class="h-10 w-10 font-semibold text-gray-800 hover:bg-blue-600 hover:text-white text-sm flex items-center justify-center">2</a>
-                <a href="#" class="h-10 w-10 font-semibold text-gray-800 hover:text-gray-900 text-sm flex items-center justify-center ml-3">Next <i class="fas fa-arrow-right ml-2"></i></a>
+                <a href="#"
+                    class="h-10 w-10 bg-blue-800 hover:bg-blue-600 font-semibold text-white text-sm flex items-center justify-center">1</a>
+                <a href="#"
+                    class="h-10 w-10 font-semibold text-gray-800 hover:bg-blue-600 hover:text-white text-sm flex items-center justify-center">2</a>
+                <a href="#"
+                    class="h-10 w-10 font-semibold text-gray-800 hover:text-gray-900 text-sm flex items-center justify-center ml-3">Next
+                    <i class="fas fa-arrow-right ml-2"></i></a>
             </div>
 
         </section>
@@ -102,40 +120,57 @@
         <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
 
             <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-                <p class="text-xl font-semibold pb-5">About Us</p>
-                <p class="pb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mattis est eu odio sagittis tristique. Vestibulum ut finibus leo. In hac habitasse platea dictumst.</p>
-                <a href="#" class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-4">
-                    Get to know us
-                </a>
+                <p class="text-xl font-semibold pb-5">Categories</p>
+
+                <div class="flex flex-wrap">
+                    <?php foreach ($Recentcategories as $recentCategory): ?>
+                        <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2 mb-2">
+                            <?= $recentCategory->getName() ?>
+                        </a>
+                    <?php endforeach ?>
+                </div>
             </div>
 
             <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-                <p class="text-xl font-semibold pb-5">Instagram</p>
-                <div class="grid grid-cols-3 gap-3">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=1">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=2">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=3">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=4">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=5">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=6">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=7">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=8">
-                    <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=9">
+                <p class="text-xl font-semibold pb-5">About Us</p>
+
+                <div class="flex flex-wrap">
+                    <?php foreach ($Recentcategories as $recentCategory): ?>
+                        <div class="category-item relative group">
+                            <a href="#" class=" bg-blue-600 rounded py-2 px-4 mx-2 mb-2 inline-block w-full h-full text-black ">
+                                <?= $recentCategory->getName() ?>
+                            </a>
+                            <img src="https://source.unsplash.com/collection/1346951/150x150?sig=1" alt="Category Image"
+                                class="absolute top-0 left-0 w-full h-full object-cover rounded opacity-50 group-hover:opacity-100">
+                        </div>
+                    <?php endforeach ?>
                 </div>
-                <a href="#" class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-6">
+            </div>
+
+
+
+            <div class="w-full bg-white shadow flex flex-col my-4 p-6">
+                <p class="text-xl font-semibold pb-5">Tags</p>
+                <div class="grid grid-cols-3 gap-3">
+
+                <?php foreach ($Recentcategories as $recentCategory): ?>
+                        <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2 mb-2">
+                            <?= $recentCategory->getName() ?>
+                        </a>
+                    <?php endforeach ?>
+                </div>
+                <a href="#"
+                    class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-6">
                     <i class="fab fa-instagram mr-2"></i> Follow @dgrzyb
                 </a>
             </div>
 
-        </aside> 
+        </aside>
 
     </div>
 
     <footer class="w-full border-t bg-white pb-12">
-        <div
-            class="relative w-full flex items-center invisible md:visible md:pb-12"
-            x-data="getCarouselData()"
-        >
+        <div class="relative w-full flex items-center invisible md:visible md:pb-12" x-data="getCarouselData()">
             <button
                 class="absolute bg-blue-800 hover:bg-blue-700 text-white text-2xl font-bold hover:shadow rounded-full w-16 h-16 ml-12"
                 x-on:click="decrement()">
@@ -187,4 +222,5 @@
     </script>
 
 </body>
+
 </html>

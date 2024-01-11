@@ -1,28 +1,48 @@
 <?php
+
 namespace App\entities;
+
 class Wiki
 {
     private $id;
     private $title;
     private $content;
-    private $deletedAt;
+    private $image;
+    private $deleted_at;
     private $archived;
-    private $dateCreation;
-    private $userId;
-    private $categoryId;
+    private $date_creation;
+    private $user_id;
+    private $category_id;
 
-    public function __construct( $id, $title, $content, $deletedAt = null, $archived = false, $dateCreation = null, $userId, $categoryId
+    private $tags; 
+    public function __construct(
+        $id,
+        $title,
+        $content,
+        $image,
+        $deleted_at,
+        $archived,
+        $date_creation,
+        $user_id,
+        $category_id,
+        $tags = []
     ) {
         $this->id = $id;
         $this->title = $title;
         $this->content = $content;
-        
-        $this->deletedAt = $deletedAt;
+        $this->image = $image;
+        $this->deleted_at = $deleted_at;
         $this->archived = $archived;
-        $this->dateCreation = $dateCreation;
-        $this->userId = $userId;
-        $this->categoryId = $categoryId;
+        $this->date_creation = $date_creation;
+        $this->user_id = $user_id;
+        $this->category_id = $category_id;
+
+        $this->tags = $tags;
     }
+
+  
+
+
 
     public function getId()
     {
@@ -39,11 +59,14 @@ class Wiki
         return $this->content;
     }
 
-    
+    public function getImage()
+    {
+        return $this->image;
+    }
 
     public function getDeletedAt()
     {
-        return $this->deletedAt;
+        return $this->deleted_at;
     }
 
     public function isArchived()
@@ -53,17 +76,21 @@ class Wiki
 
     public function getDateCreation()
     {
-        return $this->dateCreation;
+        return $this->date_creation;
     }
 
     public function getUserId()
     {
-        return $this->userId;
+        return $this->user_id;
     }
 
     public function getCategoryId()
     {
-        return $this->categoryId;
+        return $this->category_id;
+    }
+    public function getTags()
+    {
+        return $this->tags;
     }
 
     public function setTitle($title)
@@ -76,9 +103,14 @@ class Wiki
         $this->content = $content;
     }
 
+    public function setImage($image)
+    {
+        $this->image = $image;
+    }
+
     public function setDeletedAt($deletedAt)
     {
-        $this->deletedAt = $deletedAt;
+        $this->deleted_at = $deletedAt;
     }
 
     public function setArchived($archived)
@@ -88,16 +120,20 @@ class Wiki
 
     public function setDateCreation($dateCreation)
     {
-        $this->dateCreation = $dateCreation;
+        $this->date_creation = $dateCreation;
     }
 
     public function setUserId($userId)
     {
-        $this->userId = $userId;
+        $this->user_id = $userId;
     }
 
     public function setCategoryId($categoryId)
     {
-        $this->categoryId = $categoryId;
+        $this->category_id = $categoryId;
+    }
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
     }
 }

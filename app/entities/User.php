@@ -1,4 +1,5 @@
 <?php
+
 namespace App\entities;
 
 class User
@@ -10,9 +11,10 @@ class User
     private $image;
     private $description;
     private $status;
-    private $roleId;
+    private $role_id;
 
-    public function __construct($id, $name, $email, $password, $image = null, $description = null, $status = 'authorized', $roleId) {
+    public function __construct($id, $name, $email, $password, $image, $description, $status, $role_id)
+    {
         $this->id = $id;
         $this->name = $name;
         $this->email = $email;
@@ -20,8 +22,9 @@ class User
         $this->image = $image;
         $this->description = $description;
         $this->status = $status;
-        $this->roleId = $roleId;
+        $this->role_id = $role_id;
     }
+
 
     public function getId()
     {
@@ -33,39 +36,14 @@ class User
         return $this->name;
     }
 
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    public function getRoleId()
-    {
-        return $this->roleId;
-    }
-
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
     }
 
     public function setEmail($email)
@@ -73,9 +51,19 @@ class User
         $this->email = $email;
     }
 
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
     public function setPassword($password)
     {
         $this->password = $password;
+    }
+
+    public function getImage()
+    {
+        return $this->image;
     }
 
     public function setImage($image)
@@ -83,9 +71,19 @@ class User
         $this->image = $image;
     }
 
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 
     public function setStatus($status)
@@ -93,8 +91,13 @@ class User
         $this->status = $status;
     }
 
-    public function setRoleId($roleId)
+    public function getRoleId()
     {
-        $this->roleId = $roleId;
+        return $this->role_id;
+    }
+
+    public function setRoleId($role_id)
+    {
+        $this->role_id = $role_id;
     }
 }

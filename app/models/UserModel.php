@@ -49,17 +49,17 @@ class UserModel
 
     public function save($user)
     {
-        $hashedPassword= password_hash($user->getPassword() ,PASSWORD_DEFAULT);
-        $statement = $this->getDatabase()->getConnection()->prepare("INSERT INTO `users` (username, email, password, image, description, status, role_id) 
-    VALUES (:username, :email, :password, :image, :description, :status, :role_id)");
+        $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+        $statement = $this->getDatabase()->getConnection()->prepare("INSERT INTO `users`(`name`, `email`, `password`, `image`, `description`, `status`, `role_id`) 
+    VALUES (:name, :email, :password, :image, :description, :status, :role_id)");
 
-        $statement->bindValue(':username', $user->getName());
+        $statement->bindValue(':name', $user->getName());
         $statement->bindValue(':email', $user->getEmail());
         $statement->bindValue(':password', $hashedPassword);
         $statement->bindValue(':image', $user->getImage());
-        $statement->bindValue(':phone', $user->getDescription());
-        $statement->bindValue(':rate', $user->getSatus());
-        $statement->bindValue(':status', $user->getRoleId());
+        $statement->bindValue(':description', $user->getDescription());
+        $statement->bindValue(':status', $user->getStatus());
+        $statement->bindValue(':role_id', $user->getRoleId());
         try {
             $statement->execute();
         } catch (PDOException $e) {
@@ -92,16 +92,17 @@ class UserModel
             echo "Error: " . $e->getMessage();
         }
 
-        return null; 
+        return null;
     }
-    public function getUserById($id){
+    public function getUserById($id)
+    {
         $query = $this->database->getConnection()->prepare("SELECT * FROM `users` WHERE id = :id");
         $query->bindValue(':id', $id);
-    
+
         try {
             $query->execute();
             $userData = $query->fetch(PDO::FETCH_ASSOC);
-    
+
             if ($userData) {
                 return new User(
                     $userData['id'],
@@ -117,15 +118,44 @@ class UserModel
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
-    
+
         return null;
     }
-    
-    public function setUserStatus($id){
-        $query = $this->database->getConnection()->prepare("UPDATE `users` SET `status`='Not Authorized' where id=:id");
+
+    public function setUserStatus($id)
+    {
+        $query = $this->database->getConnection()->prepare("UPDATE `users` SET `status` = 'Not Authorized' WHERE `users`.`id` =:id");
         $query->bindValue(':id', $id);
+        $query->execute();
+        header('location:');
 
     }
+
+    public function updateUser($user)
+    {
+        $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+        $statement = $this->getDatabase()->getConnection()->prepare("UPDATE `users` 
+        SET `name` = :name, 
+            `email` = :email, 
+            `password` = :password, 
+            `image` = :image, 
+            `description` = :description
+        WHERE `id` = :id");
+
+        $statement->bindValue(':id', $user->getId());
+        $statement->bindValue(':name', $user->getName());
+        $statement->bindValue(':email', $user->getEmail());
+        $statement->bindValue(':password', $hashedPassword);
+        $statement->bindValue(':image', $user->getImage());
+        $statement->bindValue(':description', $user->getDescription());
+
+        try {
+            $statement->execute();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
 
 
 

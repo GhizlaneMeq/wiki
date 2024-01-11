@@ -4,11 +4,20 @@ namespace App\controllers;
 
 use App\entities\Tag;
 use App\models\TagModel;
+use App\models\UserModel;
 
 class TagController
 {
     public function index()
     {
+        if (isset($_SESSION["userId"])) {
+            $userSId = $_SESSION["userId"];
+            $user = new UserModel();
+            $userData = $user->getUserById($userSId);
+
+        } else {
+            $userData = null;
+        }
         $tagModel = new TagModel();
         $tags = $tagModel->getAll();
 

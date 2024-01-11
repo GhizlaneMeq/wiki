@@ -8,22 +8,18 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
-
 document.addEventListener('DOMContentLoaded', function () {
-    const darkModeToggle = document.getElementById('darkModeToggle');
+    const darkModeIcon = document.getElementById('darkModeIcon');
     const body = document.body;
 
-    
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
 
     body.classList.toggle('dark', isDarkMode);
-    darkModeToggle.checked = isDarkMode;
 
-    
-    darkModeToggle.addEventListener('change', function () {
+    function toggleDarkMode() {
         body.classList.toggle('dark');
-        
-        localStorage.setItem('darkMode', darkModeToggle.checked);
-    });
+        localStorage.setItem('darkMode', body.classList.contains('dark'));
+    }
+
+    darkModeIcon.addEventListener('click', toggleDarkMode);
 });

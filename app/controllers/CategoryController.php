@@ -4,11 +4,20 @@ namespace App\controllers;
 
 use App\entities\Category;
 use App\models\CategoryModel;
+use App\models\UserModel;
 
 class CategoryController
 {
     public function index()
     {
+        if (isset($_SESSION["userId"])) {
+            $userSId = $_SESSION["userId"];
+            $user = new UserModel();
+            $userData = $user->getUserById($userSId);
+
+        } else {
+            $userData = null;
+        }
         
         $categoryModel = new CategoryModel();
         $categories = $categoryModel->getAll();
@@ -43,7 +52,7 @@ class CategoryController
     public function submitUpdateCategory(){
         $id= $_POST['id'];
         $name= $_POST['name'];
-        $category= new Category($id,$name);
+        $category= new Category($id,$name,null,null);
         $categoryModel= new CategoryModel();
         $categoryModel->update($category);
         header('location:category');

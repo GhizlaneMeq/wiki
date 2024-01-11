@@ -5,6 +5,14 @@ use App\models\WikiModel;
 
 class AdminDashController{
     public function index(){
+        if (isset($_SESSION["userId"])) {
+            $userSId = $_SESSION["userId"];
+            $user = new UserModel();
+            $userData = $user->getUserById($userSId);
+
+        } else {
+            $userData = null;
+        }
         if ($_SESSION["isAdmin"]) {
             $wikiModel=new WikiModel();
         $wikis= $wikiModel->getAll();
@@ -17,6 +25,14 @@ class AdminDashController{
 
 
     public function wikiDetails(){
+        if (isset($_SESSION["userId"])) {
+            $userSId = $_SESSION["userId"];
+            $user = new UserModel();
+            $userData = $user->getUserById($userSId);
+
+        } else {
+            $userData = null;
+        }
         $id=$_GET['id'];
         $wikiModel=new WikiModel();
         $wikiDetails= $wikiModel->getById($id);

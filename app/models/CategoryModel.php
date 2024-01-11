@@ -3,8 +3,10 @@
 namespace App\models;
 
 use App\database\Database;
-use PDO, PDOException;
+use PDO;
+use PDOException;
 use App\entities\Category;
+use Exception;
 
 class CategoryModel
 {
@@ -33,8 +35,8 @@ class CategoryModel
                 $categories[] = new Category(
                     $categoryRow['id'],
                     $categoryRow['name'],
-                    $categoryRow['image'],
-                    $categoryRow['description']
+                    $categoryRow['description'],
+                    $categoryRow['date_creation']
                 );
             }
         }
@@ -55,8 +57,8 @@ class CategoryModel
                 return new Category(
                     $categoryData['id'],
                     $categoryData['name'],
-                    $categoryData['image'],
-                    $categoryData['description']
+                    $categoryData['description'],
+                    $categoryData['date_creation']
                 );
             }
         } catch (PDOException $e) {
@@ -68,12 +70,10 @@ class CategoryModel
 
     public function create($category)
     {
-        $statement = $this->getDatabase()->getConnection()->prepare("INSERT INTO `categories` (name, image, description) 
-            VALUES (:name, :image, :description)");
-
+        $statement = $this->getDatabase()->getConnection()->prepare("INSERT INTO `categories`(`name`,`description`, `date_creation`) VALUESVALUES (:name, :description, :date_creation)");
         $statement->bindValue(':name', $category->getName());
-        $statement->bindValue(':image', $category->getImage());
         $statement->bindValue(':description', $category->getDescription());
+        $statement->bindValue(':date_creation', $category->getDateCreation());
 
         try {
             $statement->execute();
@@ -84,14 +84,9 @@ class CategoryModel
 
     public function update($category)
     {
-        $statement = $this->getDatabase()->getConnection()->prepare("UPDATE `categories` 
-            SET name = :name, image = :image, description = :description 
-            WHERE id = :id");
-
+        $statement = $this->getDatabase()->getConnection()->prepare("UPDATE `categories` SET name = :name WHERE id = :id");
         $statement->bindValue(':id', $category->getId());
         $statement->bindValue(':name', $category->getName());
-        $statement->bindValue(':image', $category->getImage());
-        $statement->bindValue(':description', $category->getDescription());
 
         try {
             $statement->execute();
@@ -109,6 +104,30 @@ class CategoryModel
             $query->execute();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
+        }
+    }
+
+
+    public function getRecentCategories($limit = 6)
+    {
+        try {
+            $query = $this->database->getConnection()->query("SELECT * FROM `categories` ORDER BY `date_creation` DESC LIMIT $limit");
+
+            $categoriesData = $query->fetchAll(PDO::FETCH_ASSOC);
+            $categories = array();
+
+            foreach ($categoriesData as $categoryData) {
+                $categories[] = new Category(
+                    $categoryData['id'],
+                    $categoryData['name'],
+                    $categoryData['description'],
+                    $categoryData['date_creation']
+                );
+            }
+
+            return $categories;
+        } catch (PDOException $e) {
+            throw new Exception("Error fetching recent categories: " . $e->getMessage());
         }
     }
 }

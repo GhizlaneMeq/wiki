@@ -30,57 +30,74 @@
 
         <section class="w-full md:w-2/3 flex flex-col items-center px-3">
 
-           
-                <article class="flex flex-col shadow my-4">
 
-                    <img style="width: 800px; height:300px;" class="hover:opacity-75"
-                        src="<?php echo $wiki->getImage(); ?>">
+            <article class="flex flex-col shadow my-4">
 
-                    <div class="bg-white flex flex-col justify-start p-6">
-                        <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">
-                            <?php echo $wiki->getCategoryId(); ?>
-                        </a>
-                        <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">
-                            <?php echo $wiki->getTitle(); ?>
-                        </a>
-                        <p href="#" class="text-sm pb-3">
-                            By <a href="#" class="font-semibold hover:text-gray-800">
-                                <?php echo $wiki->getUserId(); ?>
-                            </a>, Published on
-                            <?php echo $wiki->getDateCreation(); ?>
-                        </p>
-                        <a href="#" class="pb-6">
-                            <?php echo $wiki->getContent(); ?>
-                        </a>
-                        <a href="display-wiki?id=<?php echo $wiki->getId(); ?>"
-                            class="uppercase text-gray-800 hover:text-black">Continue Reading <i
-                                class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
+                <img style="width: 800px; height:300px;" class="hover:opacity-75"
+                    src="<?php echo $wiki->getImage(); ?>">
+
+                <div class="bg-white flex flex-col justify-start p-6">
+                    <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">
+                        <?php echo $wiki->getCategoryId(); ?>
+                    </a>
+                    <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">
+                        <?php echo $wiki->getTitle(); ?>
+                    </a>
+                    <p href="#" class="text-sm pb-3">
+                        By <a href="#" class="font-semibold hover:text-gray-800">
+                            <?php echo $wiki->getUserId(); ?>
+                        </a>, Published on
+                        <?php echo $wiki->getDateCreation(); ?>
+                    </p>
+                    <a href="#" class="pb-6">
+                        <?php echo $wiki->getContent(); ?>
+                    </a>
+                    <?php if ($userName == $wiki->getUserId()) { ?>
+
+                        <div class="mt-4 flex justify-between">
+                            <a href="update-wiki?id=<?= $wiki->getId(); ?>" class="text-blue-500">Update</a>
+                            <a href="delete-wiki?id=<?= $wiki->getId(); ?>" class="text-red-500">Delete</a>
+                        </div>
+                    <?php } ?>
+                </div>
+
+            </article>
         </section>
 
         <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
 
             <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-            <?php foreach($wikis as $wiki): ?>
-            <article class="flex flex-col shadow my-4">
-                
-                    <img style="width: 800px; height:300px;" class="hover:opacity-75"  src="<?php echo $wiki->getImage(); ?>">
-                
-                <div class="bg-white flex flex-col justify-start p-6">
-                    <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4"><?php echo $wiki->getCategoryId(); ?></a>
-                    <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4"><?php echo $wiki->getTitle(); ?></a>
-                    <p href="#" class="text-sm pb-3">
-                        By <a href="#" class="font-semibold hover:text-gray-800"><?php echo $wiki->getUserId(); ?></a>, Published on  <?php echo $wiki->getDateCreation(); ?>
-                    </p>
-                    <a href="#" class="pb-6"><?php echo implode(' ', array_slice(explode(' ', $wiki->getContent()), 0, 30)); ?>...</a>
-                    <a href="see-details-wiki?id=<?php echo $wiki->getId(); ?>" class="uppercase text-gray-800 hover:text-black">Continue Reading <i class="fas fa-arrow-right"></i></a>
-                </div>
-            </article>
-        <?php endforeach ?>
+                <?php foreach ($wikis as $wiki): ?>
+                    <article class="flex flex-col shadow my-4">
+
+                        <img style="width: 800px; height:300px;" class="hover:opacity-75"
+                            src="<?php echo $wiki->getImage(); ?>">
+
+                        <div class="bg-white flex flex-col justify-start p-6">
+                            <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">
+                                <?php echo $wiki->getCategoryId(); ?>
+                            </a>
+                            <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">
+                                <?php echo $wiki->getTitle(); ?>
+                            </a>
+                            <p href="#" class="text-sm pb-3">
+                                By <a href="#" class="font-semibold hover:text-gray-800">
+                                    <?php echo $wiki->getUserId(); ?>
+                                </a>, Published on
+                                <?php echo $wiki->getDateCreation(); ?>
+                            </p>
+                            <a href="#" class="pb-6">
+                                <?php echo implode(' ', array_slice(explode(' ', $wiki->getContent()), 0, 30)); ?>...
+                            </a>
+                            <a href="see-details-wiki?id=<?php echo $wiki->getId(); ?>"
+                                class="uppercase text-gray-800 hover:text-black">Continue Reading <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                <?php endforeach ?>
             </div>
 
-            
+
 
         </aside>
 

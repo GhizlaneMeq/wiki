@@ -70,17 +70,16 @@ class CategoryModel
 
     public function create($category)
     {
-        $statement = $this->getDatabase()->getConnection()->prepare("INSERT INTO `categories`(`name`,`description`, `date_creation`) VALUESVALUES (:name, :description, :date_creation)");
+        $statement = $this->getDatabase()->getConnection()->prepare("INSERT INTO `categories`(`name`, `description`, `date_creation`) VALUES (:name, :description, NOW())");
         $statement->bindValue(':name', $category->getName());
         $statement->bindValue(':description', $category->getDescription());
-        $statement->bindValue(':date_creation', $category->getDateCreation());
-
         try {
             $statement->execute();
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
         }
     }
+    
 
     public function update($category)
     {

@@ -29,8 +29,9 @@ class CategoryController
     {
         if (isset($_POST['newCategory'])) {
             $newCategory = htmlspecialchars($_POST['newCategory']);
+            $category =new Category(null,$newCategory,null,null);
             $categoryModel = new CategoryModel();
-            $categoryModel->create($newCategory);
+            $categoryModel->create($category);
 
 
             header("Location: category");
@@ -44,6 +45,16 @@ class CategoryController
 
     public function updateCategory()
     {
+
+        if (isset($_SESSION["userId"])) {
+            $userSId = $_SESSION["userId"];
+            $user = new UserModel();
+            $userData = $user->getUserById($userSId);
+
+        } else {
+            $userData = null;
+        }
+        
         $categoryId=$_GET['id'];
         $categoryModel = new CategoryModel();
        $category=$categoryModel->getById($categoryId) ;
@@ -58,7 +69,7 @@ class CategoryController
         header('location:category');
     }
 
-    public function deleteCategory()
+    public function delete()
     {
         $categoryId=$_GET['id'];
         $categoryModel = new CategoryModel();

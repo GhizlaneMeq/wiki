@@ -20,7 +20,7 @@ class AdminDashController{
         } else {
             header("location:login");
         }
-        ;
+        
     }
 
 
@@ -71,7 +71,43 @@ class AdminDashController{
         $userData = null;
     }
 
-   }
+}
+
+
+public function adminWikis(){
+
+    if (isset($_SESSION["userId"])) {
+        $userSId = $_SESSION["userId"];
+        $user = new UserModel();
+        $userData = $user->getUserById($userSId);
+
+    } else {
+        $userData = null;
+    }
+    if ($_SESSION["isAdmin"]) {
+        $wikiModel=new WikiModel();
+    $wikis= $wikiModel->getAll();
+    include '../../views/admin/dashboard.php';
+    } else {
+        header("location:login");
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

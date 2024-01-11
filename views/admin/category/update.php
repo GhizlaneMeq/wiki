@@ -14,12 +14,9 @@
 
         <?php include '../../views/includes/sidebar.php' ?>
 
-        <div class="mt-4 max-w-4xl mx-auto">
+        <div class="mt-24 max-w-4xl mx-auto">
 
-            <section class="p-6 bg-indigo-600 rounded-md shadow-md text-white mt-20">
-                <h1 class="text-2xl font-bold capitalize">Update Category</h1>
-            </section>
-
+            
             <section class="mt-8 p-6 bg-white rounded-md shadow-md">
 
                 <?php

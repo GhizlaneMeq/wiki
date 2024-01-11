@@ -15,7 +15,7 @@ class AdminDashController
                 $userSId = $_SESSION["userId"];
                 $user = new UserModel();
                 $userData = $user->getUserById($userSId);
-    
+
             } else {
                 $userData = null;
             }
@@ -24,12 +24,12 @@ class AdminDashController
             $CategoryModel = new CategoryModel();
             $userModel = new UserModel();
 
-            $wikis=$wikiModel->getWikiCount();
-            $tags=$tagModel->getTagCount();
-            $categories=$CategoryModel->getCategoryCount();
-            $users= $userModel->getUserCount();
-            $authorizedYsers=$userModel->getAuthorizedUserCount();
-            $notAuthorizedUsers=$userModel->getNonAuthorizedUserCount();
+            $wikis = $wikiModel->getWikiCount();
+            $tags = $tagModel->getTagCount();
+            $categories = $CategoryModel->getCategoryCount();
+            $users = $userModel->getUserCount();
+            $authorizedYsers = $userModel->getAuthorizedUserCount();
+            $notAuthorizedUsers = $userModel->getNonAuthorizedUserCount();
             include '../../views/admin/dashboard.php';
         } else {
             header("location:login");
@@ -113,6 +113,48 @@ class AdminDashController
         }
 
     }
+
+
+    public function search()
+    {
+        
+        if (isset($_SESSION["userId"])) {
+            $userSId = $_SESSION["userId"];
+            $user = new UserModel();
+            $userData = $user->getUserById($userSId);
+
+        } else {
+            $userData = null;
+        }
+        $query = isset($_GET['query']) ? $_GET['query'] : '';
+        $wikiModel = new WikiModel();
+        $tagModel = new TagModel();
+        $categoryModel = new CategoryModel();
+        $userModel = new UserModel();
+    
+        $users = $userModel->searchUsers($query);
+        $wikis = $wikiModel->searchWikis($query);
+        $tags = $tagModel->searchTags($query);
+        $categories = $categoryModel->searchCategories($query);
+    
+        // Now, you can include a view that will display the search results in a modal
+         foreach ($users as $user):
+           echo $user->getName();
+         endforeach;
+
+         foreach ($wikis as $wiki):
+           echo $wiki->getTitle();
+         endforeach;
+
+         foreach ($tags as $tag):
+           echo $tag->getLabel();
+         endforeach;
+
+         foreach ($categories as $category):
+           echo $category->getName();
+         endforeach; 
+    }
+    
 
 
 

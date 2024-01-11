@@ -10,68 +10,121 @@ class TagController
 {
     public function index()
     {
-        if (isset($_SESSION["userId"])) {
+        try {
+            if (!isset($_SESSION["userId"])) {
+                throw new \Exception("User not authenticated");
+            }
+
             $userSId = $_SESSION["userId"];
             $user = new UserModel();
             $userData = $user->getUserById($userSId);
 
-        } else {
-            $userData = null;
-        }
-        $tagModel = new TagModel();
-        $tags = $tagModel->getAll();
+            if (!$userData) {
+                throw new \Exception("User data not found");
+            }
 
-        include '../../views/admin/tag/add.php';
+            $tagModel = new TagModel();
+            $tags = $tagModel->getAll();
+            include '../../views/admin/tag/add.php';
+        } catch (\Exception $e) {
+            header("Location: error-page?message=" . urlencode($e->getMessage()));
+            exit();
+        }
     }
 
     public function addTag()
     {
-        if (isset($_POST['newTag'])) {
+        try {
+            if (!isset($_POST['newTag'])) {
+                throw new \Exception("Invalid data. New tag not provided.");
+            }
+
             $newTag = htmlspecialchars($_POST['newTag']);
             $tagModel = new TagModel();
             $tagModel->create($newTag);
 
-            header("Location: tag");
+            header("Location: tag?message=Tag added successfully");
+            exit();
+        } catch (\Exception $e) {
+            header("Location: manage-tags?error=" . urlencode($e->getMessage()));
             exit();
         }
-
-        header("Location: manage-tags?error=Invalid%20data");
-        exit();
     }
 
     public function updateTag()
     {
-        if (isset($_SESSION["userId"])) {
+        try {
+            if (!isset($_SESSION["userId"])) {
+                throw new \Exception("User not authenticated");
+            }
+
             $userSId = $_SESSION["userId"];
             $user = new UserModel();
             $userData = $user->getUserById($userSId);
-        } else {
-            $userData = null;
-        } 
-        $tagId = $_GET['id'];
-        $tagModel = new TagModel();
-        $tag = $tagModel->getById($tagId);
-        include '../../views/admin/tag/update.php';
+
+            if (!$userData) {
+                throw new \Exception("User data not found");
+            }
+
+            $tagId = isset($_GET['id']) ? $_GET['id'] : null;
+
+            if (!$tagId) {
+                throw new \Exception("Invalid tag ID");
+            }
+
+            $tagModel = new TagModel();
+            $tag = $tagModel->getById($tagId);
+
+            if (!$tag) {
+                throw new \Exception("Tag not found");
+            }
+
+            include '../../views/admin/tag/update.php';
+        } catch (\Exception $e) {
+            header("Location: error-page?message=" . urlencode($e->getMessage()));
+            exit();
+        }
     }
 
     public function submitUpdateTag()
     {
-        $id = $_POST['id'];
-        $label = $_POST['label'];
-        $tag = new Tag($id, $label);
-        $tagModel = new TagModel();
-        $tagModel->update($tag);
+        try {
+            if (!isset($_POST['id'], $_POST['label'])) {
+                throw new \Exception("All required fields are not set.");
+            }
 
-        header('location:tag');
+            $id = $_POST['id'];
+            $label = $_POST['label'];
+
+            $tag = new Tag($id, $label);
+            $tagModel = new TagModel();
+            $tagModel->update($tag);
+
+            header('location:tag?message=Tag updated successfully');
+            exit();
+        } catch (\Exception $e) {
+            header("Location: tag?error=" . urlencode($e->getMessage()));
+            exit();
+        }
     }
 
     public function deleteTag()
     {
-        $tagId = $_GET['id'];
-        $tagModel = new TagModel();
-        $tagModel->delete($tagId);
+        try {
+            $tagId = isset($_GET['id']) ? $_GET['id'] : null;
 
-        header("Location: tag");
-        exit();
+            if (!$tagId) {
+                throw new \Exception("Invalid tag ID");
+            }
+
+            $tagModel = new TagModel();
+            $tagModel->delete($tagId);
+
+            header("Location: tag?message=Tag deleted successfully");
+            exit();
+        } catch (\Exception $e) {
+            header("Location: tag?error=" . urlencode($e->getMessage()));
+            exit();
+        }
     }
 }

@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Tags</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        /* Add your custom styles here */
-    </style>
+    <script src="public/js/tag.js" defer></script>
 </head>
 
 <body>
@@ -19,15 +17,33 @@
 
         <div class="mt-24 max-w-4xl mx-auto">
 
-           
-
             <section class="mt-8 p-6 bg-white rounded-md shadow-md">
 
-                <form action="add-tag" method="post">
+                <?php
+                $successMessage = isset($_GET['message']) ? urldecode($_GET['message']) : null;
+                $errorMessage = isset($_GET['error']) ? urldecode($_GET['error']) : null;
+
+                function showMessage($type, $content)
+                {
+                    echo '<div class="bg-' . $type . '-200 p-4 mb-4 rounded-md border border-' . $type . '-500 text-' . $type . '-700 relative">';
+                    echo $content;
+                    echo '<button class="absolute top-2 right-2 text-gray-700 cursor-pointer" onclick="closeMessage(this.parentElement)">&times;</button>';
+                    echo '</div>';
+                }
+
+                if ($successMessage) {
+                    showMessage('green', $successMessage);
+                } elseif ($errorMessage) {
+                    showMessage('red', $errorMessage);
+                }
+                ?>
+
+                <form id="addTagForm" action="add-tag" method="post" onsubmit="return validateForm()">
                     <div class="grid grid-cols-2 gap-6">
                         <div>
                             <label for="newTag" class="text-gray-700">New Tag</label>
                             <input type="text" id="newTag" name="newTag" class="mt-2 p-2 border border-gray-300 rounded-md w-full">
+                            <p id="tagError" class="text-red-500 hidden">Please enter a value for the new tag.</p>
                         </div>
                         <div class="flex items-end">
                             <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md">Add Tag</button>
@@ -60,6 +76,7 @@
                         ?>
                     </tbody>
                 </table>
+
 
             </section>
 

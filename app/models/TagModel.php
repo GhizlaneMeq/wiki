@@ -6,6 +6,7 @@ use App\database\Database;
 use PDO;
 use PDOException;
 use App\entities\Tag;
+use Exception;
 
 class TagModel
 {
@@ -101,9 +102,37 @@ class TagModel
     }
 
 
-    public function getTagCount() {
+    public function getTagCount()
+    {
         $query = "SELECT COUNT(*) as count FROM tags";
         $result = $this->database->getConnection()->query($query);
         return $result->fetch(PDO::FETCH_ASSOC)['count'];
+    }
+
+    public function searchTags($query)
+    {
+        try {
+            $statement = $this->database->getConnection()->prepare("SELECT * FROM tags WHERE label LIKE :query");
+            $statement->bindValue(':query', "%$query%");
+            $statement->execute();
+
+            $tagData = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $tags = array();
+
+            if (empty($tagData)) {
+                return $tags;
+            } else {
+                foreach ($tagData as $tagRow) {
+                    $tags[] = new Tag(
+                        $tagRow['id'],
+                        $tagRow['label']
+                    );
+                }
+            }
+
+            return $tags;
+        } catch (PDOException $e) {
+            throw new Exception("Error searching for tags: " . $e->getMessage());
+        }
     }
 }

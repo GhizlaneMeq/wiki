@@ -20,7 +20,7 @@
         <a href="" class="text-xl font-bold flex items-center lg:ml-2.5">
           <img src="public/img/logo.png" class="h-6 mr-2" alt="wiki Logo">
         </a>
-        <form action="#" method="GET" class="hidden lg:block lg:pl-32">
+        <form action="search" method="GET" class="hidden lg:block lg:pl-32">
           <label for="topbar-search" class="sr-only">Search</label>
           <div class="mt-1 relative lg:w-64">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -31,7 +31,7 @@
                   clip-rule="evenodd"></path>
               </svg>
             </div>
-            <input type="text" name="email" id="topbar-search"
+            <input type="text" name="query" id="topbar-search"
               class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pl-10 p-2.5"
               placeholder="Search">
           </div>
@@ -49,15 +49,15 @@
         </button>
 
         <div class="relative group" id="userDropdown">
-                    <span class="text-sm text-gray-400 hover:text-gray-500 cursor-pointer">
-                        <?= $userData->getName(); ?>
-                    </span>
-                    <ul class="absolute hidden space-y-2 mt-2 bg-blue-800 border border-gray-200 p-2 rounded-lg"
-                        id="dropdownMenu">
-                        <li><a href="my-profile">Profile</a></li>
-                        <li><a href="logout">Logout</a></li>
-                    </ul>
-</div>
+          <span class="text-sm text-gray-400 hover:text-gray-500 cursor-pointer">
+            <?= $userData->getName(); ?>
+          </span>
+          <ul class="absolute hidden space-y-2 mt-2 bg-blue-800 border border-gray-200 p-2 rounded-lg"
+            id="dropdownMenu">
+            <li><a href="my-profile">Profile</a></li>
+            <li><a href="logout">Logout</a></li>
+          </ul>
+        </div>
         <ul class="absolute hidden space-y-2 mt-2 bg-blue-800 border border-gray-200 p-2 rounded-lg" id="dropdownMenu">
           <li><a href="my-profile">Profile</a></li>
           <li><a href="logout">Logout</a></li>
@@ -112,7 +112,7 @@
             </a>
           </li>
           <li>
-            <a href="wikis" 
+            <a href="wikis"
               class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
               <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -121,12 +121,12 @@
                 </path>
               </svg>
               <span class="ml-3 flex-1 whitespace-nowrap">Wikis</span>
-              
+
             </a>
           </li>
 
           <li>
-            <a href="category" 
+            <a href="category"
               class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
               <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -135,12 +135,12 @@
                 </path>
               </svg>
               <span class="ml-3 flex-1 whitespace-nowrap">Categories</span>
-              
+
             </a>
           </li>
 
           <li>
-            <a href="tag" 
+            <a href="tag"
               class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
               <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -149,12 +149,12 @@
                 </path>
               </svg>
               <span class="ml-3 flex-1 whitespace-nowrap">Tags</span>
-              
+
             </a>
           </li>
 
           <li>
-            <a href="Authors" 
+            <a href="Authors"
               class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
               <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -163,13 +163,13 @@
                 </path>
               </svg>
               <span class="ml-3 flex-1 whitespace-nowrap">Authors</span>
-              
+
             </a>
           </li>
 
 
 
-          <a href="logout" 
+          <a href="logout"
             class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
             <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
               fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -180,7 +180,7 @@
             <span class="ml-3">logout</span>
           </a>
 
-          
+
       </div>
     </div>
   </div>
@@ -242,3 +242,16 @@
     });
   }
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+

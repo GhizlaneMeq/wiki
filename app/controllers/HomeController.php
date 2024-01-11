@@ -28,6 +28,22 @@ class HomeController
 
         $wikis=$WikiModel->getAll();
 
+        if (isset($_POST['searchInput'])) {
+            $searchInput = $_POST['searchInput'];
+        
+            // Create an instance of WikiModel
+              // Adjust the namespace accordingly
+        
+            // Use the searchWikis method to get the search results
+            $wikis = $WikiModel->searchWikis($searchInput);
+        
+            // Convert the results to JSON and echo the response
+            header('Content-Type: application/json');
+            echo json_encode($wikis);
+        } else {
+            // Invalid request
+            echo json_encode(['error' => 'Invalid search criteria.']);
+        }
         include '../../views/index.php';
 
     }

@@ -56,9 +56,9 @@ class WikiModel
     }
 
     public function getWikisByUser($userId)
-{
-    try {
-        $query = $this->database->getConnection()->prepare("SELECT wikis.*, users.name  AS user_name, categories.name AS category_name, GROUP_CONCAT(tags.label) AS tag_labels
+    {
+        try {
+            $query = $this->database->getConnection()->prepare("SELECT wikis.*, users.name  AS user_name, categories.name AS category_name, GROUP_CONCAT(tags.label) AS tag_labels
             FROM `wikis`
             LEFT JOIN `users` ON wikis.user_id = users.id
             LEFT JOIN `categories` ON wikis.category_id = categories.id
@@ -67,37 +67,37 @@ class WikiModel
             WHERE wikis.user_id = :user_id AND wikis.archived= false
             GROUP BY wikis.id");
 
-        $query->bindValue(':user_id', $userId);
-        $query->execute();
+            $query->bindValue(':user_id', $userId);
+            $query->execute();
 
-        $wikiData = $query->fetchAll(PDO::FETCH_ASSOC);
-        $wikis = array();
+            $wikiData = $query->fetchAll(PDO::FETCH_ASSOC);
+            $wikis = array();
 
-        foreach ($wikiData as $wikiRow) {
-            $wikis[] = new Wiki(
-                $wikiRow['id'],
-                $wikiRow['title'],
-                $wikiRow['content'],
-                $wikiRow['image'],
-                $wikiRow['deleted_at'],
-                $wikiRow['archived'],
-                $wikiRow['date_creation'],
-                $wikiRow['user_name'],
-                $wikiRow['category_name'],
-                explode(',', $wikiRow['tag_labels'])
-            );
+            foreach ($wikiData as $wikiRow) {
+                $wikis[] = new Wiki(
+                    $wikiRow['id'],
+                    $wikiRow['title'],
+                    $wikiRow['content'],
+                    $wikiRow['image'],
+                    $wikiRow['deleted_at'],
+                    $wikiRow['archived'],
+                    $wikiRow['date_creation'],
+                    $wikiRow['user_name'],
+                    $wikiRow['category_name'],
+                    explode(',', $wikiRow['tag_labels'])
+                );
+            }
+
+            return $wikis;
+        } catch (PDOException $e) {
+            throw new Exception("Error fetching wikis by user ID: " . $e->getMessage());
         }
-
-        return $wikis;
-    } catch (PDOException $e) {
-        throw new Exception("Error fetching wikis by user ID: " . $e->getMessage());
     }
-}
 
-public function getWikisByUserName($username)
-{
-    try {
-        $query = $this->database->getConnection()->prepare("SELECT wikis.*, users.name  AS user_name, categories.name AS category_name, GROUP_CONCAT(tags.label) AS tag_labels
+    public function getWikisByUserName($username)
+    {
+        try {
+            $query = $this->database->getConnection()->prepare("SELECT wikis.*, users.name  AS user_name, categories.name AS category_name, GROUP_CONCAT(tags.label) AS tag_labels
             FROM `wikis`
             LEFT JOIN `users` ON wikis.user_id = users.id
             LEFT JOIN `categories` ON wikis.category_id = categories.id
@@ -106,32 +106,32 @@ public function getWikisByUserName($username)
             WHERE users.name = :user_name AND wikis.archived= false
             GROUP BY wikis.id LIMIT 2");
 
-        $query->bindValue(':user_name', $username);
-        $query->execute();
+            $query->bindValue(':user_name', $username);
+            $query->execute();
 
-        $wikiData = $query->fetchAll(PDO::FETCH_ASSOC);
-        $wikis = array();
+            $wikiData = $query->fetchAll(PDO::FETCH_ASSOC);
+            $wikis = array();
 
-        foreach ($wikiData as $wikiRow) {
-            $wikis[] = new Wiki(
-                $wikiRow['id'],
-                $wikiRow['title'],
-                $wikiRow['content'],
-                $wikiRow['image'],
-                $wikiRow['deleted_at'],
-                $wikiRow['archived'],
-                $wikiRow['date_creation'],
-                $wikiRow['user_name'],
-                $wikiRow['category_name'],
-                explode(',', $wikiRow['tag_labels'])
-            );
+            foreach ($wikiData as $wikiRow) {
+                $wikis[] = new Wiki(
+                    $wikiRow['id'],
+                    $wikiRow['title'],
+                    $wikiRow['content'],
+                    $wikiRow['image'],
+                    $wikiRow['deleted_at'],
+                    $wikiRow['archived'],
+                    $wikiRow['date_creation'],
+                    $wikiRow['user_name'],
+                    $wikiRow['category_name'],
+                    explode(',', $wikiRow['tag_labels'])
+                );
+            }
+
+            return $wikis;
+        } catch (PDOException $e) {
+            throw new Exception("Error fetching wikis by user ID: " . $e->getMessage());
         }
-
-        return $wikis;
-    } catch (PDOException $e) {
-        throw new Exception("Error fetching wikis by user ID: " . $e->getMessage());
     }
-}
 
 
     public function getById($id)
@@ -259,9 +259,51 @@ public function getWikisByUserName($username)
         }
     }
 
-    public function getWikiCount() {
+    public function getWikiCount()
+    {
         $query = "SELECT COUNT(*) as count FROM wikis";
         $result = $this->database->getConnection()->query($query);
         return $result->fetch(PDO::FETCH_ASSOC)['count'];
+    }
+
+    public function searchWikis($searchInput)
+    {
+        $searchInput = "%$searchInput%"; 
+
+        $sql = "SELECT DISTINCT w.*, u.name AS author, c.name AS category
+                FROM wikis w
+                LEFT JOIN users u ON w.user_id = u.id
+                LEFT JOIN categories c ON w.category_id = c.id
+                LEFT JOIN wikis_tags wt ON w.id = wt.wiki_id
+                LEFT JOIN tags t ON wt.tag_id = t.id
+                WHERE w.title LIKE :searchInput
+                OR w.content LIKE :searchInput
+                OR u.name LIKE :searchInput
+                OR c.name LIKE :searchInput
+                OR t.label LIKE :searchInput";
+
+        $stmt = $this->database->getConnection()->prepare($sql);
+        $stmt->bindParam(':searchInput', $searchInput, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $wikiData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $wikis = array();
+
+        foreach ($wikiData as $wikiRow) {
+            $wikis[] = new Wiki(
+                $wikiRow['id'],
+                $wikiRow['title'],
+                $wikiRow['content'],
+                $wikiRow['image'],
+                $wikiRow['deleted_at'],
+                $wikiRow['archived'],
+                $wikiRow['date_creation'],
+                $wikiRow['user_name'],
+                $wikiRow['category_name'],
+                explode(',', $wikiRow['tag_labels'])
+            );
+        }
+
+        return $wikis;
     }
 }

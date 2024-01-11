@@ -35,10 +35,17 @@
                     gateway to collaborative knowledge sharing.</span> Dive into a world where users explore, create,
                 and share wikis on a diverse range of topics.</p>
             <div class="flex items-center space-x-4 mb-4">
+                <form action="home" method="post">
                 <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Search...">
-                <button class="bg-orange-600 text-white px-4 py-2 rounded-full lg:inline-block hidden">Search</button>
+                <button type="submit" class="bg-blue-800 text-white px-4 py-2 rounded-full lg:inline-block hidden">Search</button>
+                </form>
+                
             </div>
         </div>
+        <div id="searchResults">
+    <!-- Search results will be inserted here using Ajax -->
+</div>
+
 
         <div class="lg:w-1/2 order-1 lg:order-2 mt-4 lg:mt-0 ">
             <img src="public/img/home.jpg" alt="Home Image" class="w-full rounded-lg max-w-sm mx-auto"
@@ -137,7 +144,8 @@
                 <div class="flex flex-wrap">
                     <?php foreach ($Recentcategories as $recentCategory): ?>
                         <div class="category-item relative group">
-                            <a href="#" class=" bg-blue-600 rounded py-2 px-4 mx-2 mb-2 inline-block w-full h-full text-black ">
+                            <a href="#"
+                                class=" bg-blue-600 rounded py-2 px-4 mx-2 mb-2 inline-block w-full h-full text-black ">
                                 <?= $recentCategory->getName() ?>
                             </a>
                             <img src="https://source.unsplash.com/collection/1346951/150x150?sig=1" alt="Category Image"
@@ -153,7 +161,7 @@
                 <p class="text-xl font-semibold pb-5">Tags</p>
                 <div class="grid grid-cols-3 gap-3">
 
-                <?php foreach ($Recentcategories as $recentCategory): ?>
+                    <?php foreach ($Recentcategories as $recentCategory): ?>
                         <a href="#" class="hover:bg-gray-400 rounded py-2 px-4 mx-2 mb-2">
                             <?= $recentCategory->getName() ?>
                         </a>
@@ -219,6 +227,45 @@
                 },
             }
         }
+
+
+        function searchWikis() {
+            var searchInput = document.getElementById('searchInput').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'search-wikis.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var searchResults = JSON.parse(xhr.responseText);
+                    displaySearchResults(searchResults);
+                }
+            };
+
+            var params = 'searchInput=' + encodeURIComponent(searchInput);
+            xhr.send(params);
+        }
+
+        function displaySearchResults(results) {
+            var searchResultsContainer = document.getElementById('searchResults');
+            searchResultsContainer.innerHTML = '';
+
+            if (results.length > 0) {
+                for (var i = 0; i < results.length; i++) {
+                    var wiki = results[i];
+                    var resultElement = document.createElement('div');
+                    resultElement.innerHTML = '<h3>' + wiki.title + '</h3>' +
+                        '<p>Author: ' + wiki.user_name + '</p>' +
+                        '<p>Category: ' + wiki.category_name + '</p>';
+                    searchResultsContainer.appendChild(resultElement);
+                }
+            } else {
+                searchResultsContainer.innerHTML = '<p>No results found.</p>';
+            }
+        }
+    </script>
+
+
     </script>
 
 </body>

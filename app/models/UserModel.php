@@ -5,6 +5,7 @@ namespace App\models;
 use App\database\Database;
 use PDO, PDOException;
 use App\entities\User;
+use Exception;
 
 class UserModel
 {
@@ -177,5 +178,36 @@ class UserModel
 
 
 
+    public function searchUsers($query)
+{
+    try {
+        $statement = $this->database->getConnection()->prepare("SELECT * FROM users WHERE name LIKE :query");
+        $statement->bindValue(':query', "%$query%");
+        $statement->execute();
+        $userData = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $users = array();
+
+        if (empty($userData)) {
+            return $users;
+        } else {
+            foreach ($userData as $userRow) {
+                $users[] = new User(
+                    $userRow['id'],
+                    $userRow['name'],
+                    $userRow['email'],
+                    $userRow['password'],
+                    $userRow['image'],
+                    $userRow['description'],
+                    $userRow['status'],
+                    $userRow['role_id']
+                );
+            }
+        }
+
+        return $users;
+    } catch (PDOException $e) {
+        throw new Exception("Error searching for users: " . $e->getMessage());
+    }
+}
 }
 

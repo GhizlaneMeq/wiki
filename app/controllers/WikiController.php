@@ -11,27 +11,36 @@ class WikiController
 
     public function index()
     {
-        if (isset($_SESSION["userId"])) {
+        try {
+            if (!isset($_SESSION["userId"])) {
+                throw new \Exception("User not authenticated");
+            }
+
             $userSId = $_SESSION["userId"];
             $user = new UserModel();
             $userData = $user->getUserById($userSId);
-        } else {
-            $userData = null;
-        }
 
-        $wikiModel = new WikiModel();
-        $wikis = $wikiModel->getWikisByUser($_SESSION['userId']);
-        include '../../views/auteur/displayWiki.php';
+            if (!$userData) {
+                throw new \Exception("User data not found");
+            }
+
+            $wikiModel = new WikiModel();
+            $wikis = $wikiModel->getWikisByUser($_SESSION['userId']);
+            include '../../views/auteur/displayWiki.php';
+        } catch (\Exception $e) {
+            header("Location: error-page?message=" . urlencode($e->getMessage()));
+            exit();
+        }
     }
 
     public function addWiki()
     {
+        try {
+            if (!isset($_SESSION['userId'], $_POST['title'], $_POST['content'], $_POST['category'], $_POST['tags'], $_FILES['image'])) {
+                throw new \Exception("All required fields are not set.");
+            }
 
-
-
-        $userSId = $_SESSION['userId'];
-        if (isset($_POST['title'], $_POST['content'], $_POST['category'], $_POST['tags'], $_FILES['image'])) {
-
+            $userSId = $_SESSION['userId'];
             $title = htmlspecialchars($_POST['title']);
             $content = $_POST['content'];
             $category = htmlspecialchars($_POST['category']);
@@ -41,8 +50,8 @@ class WikiController
             $temp_name = $_FILES['image']['tmp_name'];
             $folder = "public/img/" . $image;
             move_uploaded_file($temp_name, $folder);
-            $wikiModel = new WikiModel();
 
+            $wikiModel = new WikiModel();
             $wiki = new Wiki(null, $title, $content, $folder, null, false, null, $userSId, $category);
             $wikiId = $wikiModel->create($wiki);
 
@@ -52,39 +61,45 @@ class WikiController
 
             header("Location: my-wikis");
             exit();
-
-        } else {
-            $error = "All required fields are not set.";
-        }
-
-        header("Location: add-wiki?error=" . urlencode($error));
-        exit();
-    }
-
-    public function updateWiki()
-    {
-        $wikiId = isset($_GET['id']) ? $_GET['id'] : null;
-
-        if ($wikiId) {
-            $wikiModel = new WikiModel();
-            $wiki = $wikiModel->getById($wikiId);
-
-            if ($wiki) {
-                include '../../views/auteur/updateWiki.php';
-                exit();
-            } else {
-                header("Location:display-wiki&error=Wiki not found");
-                exit();
-            }
-        } else {
-            header("Location:display-wiki&error=Invalid wiki ID");
+        } catch (\Exception $e) {
+            header("Location: add-wiki?error=" . urlencode($e->getMessage()));
             exit();
         }
     }
 
+
+    public function updateWiki()
+    {
+        try {
+            $wikiId = isset($_GET['id']) ? $_GET['id'] : null;
+
+            if (!$wikiId) {
+                throw new \Exception("Invalid wiki ID");
+            }
+
+            $wikiModel = new WikiModel();
+            $wiki = $wikiModel->getById($wikiId);
+
+            if (!$wiki) {
+                throw new \Exception("Wiki not found");
+            }
+
+            include '../../views/auteur/updateWiki.php';
+            exit();
+        } catch (\Exception $e) {
+            header("Location:display-wiki&error=" . urlencode($e->getMessage()));
+            exit();
+        }
+    }
+
+
     public function submitUpdateWiki()
     {
-        if (isset($_POST['id'], $_POST['title'], $_POST['content'], $_POST['category'], $_POST['tag'])) {
+        try {
+            if (!isset($_POST['id'], $_POST['title'], $_POST['content'], $_POST['category'], $_POST['tag'])) {
+                throw new \Exception("All required fields are not set.");
+            }
+
             $id = $_POST['id'];
             $title = htmlspecialchars($_POST['title']);
             $content = htmlspecialchars($_POST['content']);
@@ -95,9 +110,7 @@ class WikiController
             $existingWiki = $wikiModel->getById($id);
 
             if (!$existingWiki) {
-                $error = "Invalid wiki ID";
-                header("Location: update-wiki?id=$id&error=" . urlencode($error));
-                exit();
+                throw new \Exception("Invalid wiki ID");
             }
 
             $newImage = $_FILES['image']['name'] ?? null;
@@ -111,9 +124,7 @@ class WikiController
                 if (in_array($fileExtension, $allowedExtensions)) {
                     move_uploaded_file($temp_name, $folder);
                 } else {
-                    $error = "Invalid file format. Allowed formats: " . implode(', ', $allowedExtensions);
-                    header("Location: update-wiki?id=$id&error=" . urlencode($error));
-                    exit();
+                    throw new \Exception("Invalid file format. Allowed formats: " . implode(', ', $allowedExtensions));
                 }
             } else {
                 $folder = $existingWiki->getImage();
@@ -125,88 +136,127 @@ class WikiController
 
             header("Location:display-wiki");
             exit();
-        } else {
-            $error = "All required fields are not set.";
-            header("Location: update-wiki?&error=" . urlencode($error));
+        } catch (\Exception $e) {
+            header("Location: update-wiki?id=$id&error=" . urlencode($e->getMessage()));
             exit();
         }
     }
 
+
     public function deleteWiki()
     {
-        $wikiId = isset($_GET['id']) ? (int) $_GET['id'] : null;
+        try {
+            $wikiId = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
-        if ($wikiId) {
+            if (!$wikiId) {
+                throw new \Exception("Invalid wiki ID");
+            }
+
             $wikiModel = new WikiModel();
+            $wiki = $wikiModel->getById($wikiId);
+
+            if (!$wiki) {
+                throw new \Exception("Wiki not found");
+            }
+
             $wikiModel->delete($wikiId);
 
             header("Location:my-wikis");
             exit();
-        } else {
-            header("Location:display-wiki&error=Invalid wiki ID");
+        } catch (\Exception $e) {
+            header("Location:display-wiki&error=" . urlencode($e->getMessage()));
             exit();
         }
     }
+
 
     public function seeMoreWiki()
     {
-        if (isset($_SESSION["userId"])) {
+        try {
+            if (!isset($_SESSION["userId"])) {
+                throw new \Exception("User not authenticated");
+            }
+
             $userSId = $_SESSION["userId"];
             $user = new UserModel();
             $userData = $user->getUserById($userSId);
-            $userName = $userData->getName();
-        } else {
-            $userData = null;
-        }
-        $wikiId = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
-        if ($wikiId) {
+            if (!$userData) {
+                throw new \Exception("User data not found");
+            }
+
+            $userName = $userData->getName();
+            $wikiId = isset($_GET['id']) ? (int) $_GET['id'] : null;
+
+            if (!$wikiId) {
+                throw new \Exception("Invalid wiki ID");
+            }
+
             $wikiModel = new WikiModel();
             $wiki = $wikiModel->getById($wikiId);
 
+            if (!$wiki) {
+                throw new \Exception("Wiki not found");
+            }
+
             $wikis = $wikiModel->getWikisByUserName($wiki->getUserId());
 
-            if ($wiki) {
-                include '../../views/wikiDetails.php';
-            } else {
-                header("Location:display-wiki&error=Wiki not found");
-                exit();
-            }
-        } else {
-            header("Location:display-wiki&error=Invalid wiki ID");
+            include '../../views/wikiDetails.php';
+        } catch (\Exception $e) {
+            header("Location:display-wiki&error=" . urlencode($e->getMessage()));
             exit();
         }
     }
 
+
     public function archiveWiki()
     {
-        if (isset($_POST['wiki_id'])) {
-            $wikiId = $_POST['wiki_id'];
+        try {
+            if (!isset($_POST['wiki_id'])) {
+                throw new \Exception("Invalid request. Wiki ID not provided.");
+            }
 
+            $wikiId = $_POST['wiki_id'];
             $wikiModel = new WikiModel();
+            $wiki = $wikiModel->getById($wikiId);
+
+            if (!$wiki) {
+                throw new \Exception("Wiki not found");
+            }
+
             $wikiModel->archive($wikiId);
 
             header("Location: admin-dashboard");
             exit();
+        } catch (\Exception $e) {
+            header("Location: dashboard?error=" . urlencode($e->getMessage()));
+            exit();
         }
-
-        header("Location: dashboard?error=Invalid%20wiki%20ID");
-        exit();
     }
 
     public function disarchiveWiki()
     {
-        if (isset($_POST['wiki_id'])) {
-            $wikiId = $_POST['wiki_id'];
+        try {
+            if (!isset($_POST['wiki_id'])) {
+                throw new \Exception("Invalid request. Wiki ID not provided.");
+            }
 
+            $wikiId = $_POST['wiki_id'];
             $wikiModel = new WikiModel();
+            $wiki = $wikiModel->getById($wikiId);
+
+            if (!$wiki) {
+                throw new \Exception("Wiki not found");
+            }
+
             $wikiModel->disarchive($wikiId);
 
             header("Location: admin-dashboard");
             exit();
+        } catch (\Exception $e) {
+            header("Location: dashboard?error=" . urlencode($e->getMessage()));
+            exit();
         }
-
-        header("Location: dashboard?error=Invalid%20wiki%20ID");
-        exit();
     }
+
 }

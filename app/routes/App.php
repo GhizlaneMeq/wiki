@@ -39,6 +39,8 @@ $router->setRoutes([
         'my-profile'=> ['AuthorDashController', 'updateProfile'],
         'Authors'=> ['AdminDashController', 'dispalyAuthors'],
        // 'block-user'=> ['AdminDashController', 'BlockUser'],
+       'search'=> ['AdminDashController', 'search'],
+
 
 
     ],
@@ -56,6 +58,8 @@ $router->setRoutes([
         'block-user'=> ['AdminDashController', 'BlockUser'],
         'submit-update-profile'=> ['AuthorDashController', 'submitUpdate'],
         'authorize-user'=> ['AdminDashController', 'AuthorizeUser'],
+
+        'home' => ['HomeController', 'index'],
 
 
     ]

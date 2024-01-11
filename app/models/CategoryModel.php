@@ -135,4 +135,28 @@ class CategoryModel
         $result = $this->database->getConnection()->query($query);
         return $result->fetch(PDO::FETCH_ASSOC)['count'];
     }
+
+    public function searchCategories($query)
+{
+    try {
+        $statement = $this->database->getConnection()->prepare("SELECT * FROM categories WHERE name LIKE :query");
+        $statement->bindValue(':query', "%$query%");
+        $statement->execute();
+        $categoriesData = $statement->fetchAll(PDO::FETCH_ASSOC);
+            $categories = array();
+
+            foreach ($categoriesData as $categoryData) {
+                $categories[] = new Category(
+                    $categoryData['id'],
+                    $categoryData['name'],
+                    $categoryData['description'],
+                    $categoryData['date_creation']
+                );
+            }
+
+            return $categories;
+    } catch (PDOException $e) {
+        throw new Exception("Error searching for categories: " . $e->getMessage());
+    }
+}
 }

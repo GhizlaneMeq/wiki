@@ -129,4 +129,10 @@ class CategoryModel
             throw new Exception("Error fetching recent categories: " . $e->getMessage());
         }
     }
+
+    public function getCategoryCount() {
+        $query = "SELECT COUNT(*) as count FROM categories";
+        $result = $this->database->getConnection()->query($query);
+        return $result->fetch(PDO::FETCH_ASSOC)['count'];
+    }
 }

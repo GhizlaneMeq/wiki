@@ -258,4 +258,10 @@ public function getWikisByUserName($username)
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function getWikiCount() {
+        $query = "SELECT COUNT(*) as count FROM wikis";
+        $result = $this->database->getConnection()->query($query);
+        return $result->fetch(PDO::FETCH_ASSOC)['count'];
+    }
 }

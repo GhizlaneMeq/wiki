@@ -99,4 +99,11 @@ class TagModel
             echo "Error: " . $e->getMessage();
         }
     }
+
+
+    public function getTagCount() {
+        $query = "SELECT COUNT(*) as count FROM tags";
+        $result = $this->database->getConnection()->query($query);
+        return $result->fetch(PDO::FETCH_ASSOC)['count'];
+    }
 }

@@ -1,30 +1,45 @@
 <?php
 namespace App\controllers;
+
+use App\models\CategoryModel;
+use App\models\TagModel;
 use App\models\UserModel;
 use App\models\WikiModel;
 
-class AdminDashController{
-    public function index(){
-        if (isset($_SESSION["userId"])) {
-            $userSId = $_SESSION["userId"];
-            $user = new UserModel();
-            $userData = $user->getUserById($userSId);
-
-        } else {
-            $userData = null;
-        }
+class AdminDashController
+{
+    public function index()
+    {
         if ($_SESSION["isAdmin"]) {
-            $wikiModel=new WikiModel();
-        $wikis= $wikiModel->getAll();
-        include '../../views/admin/dashboard.php';
+            if (isset($_SESSION["userId"])) {
+                $userSId = $_SESSION["userId"];
+                $user = new UserModel();
+                $userData = $user->getUserById($userSId);
+    
+            } else {
+                $userData = null;
+            }
+            $wikiModel = new WikiModel();
+            $tagModel = new TagModel();
+            $CategoryModel = new CategoryModel();
+            $userModel = new UserModel();
+
+            $wikis=$wikiModel->getWikiCount();
+            $tags=$tagModel->getTagCount();
+            $categories=$CategoryModel->getCategoryCount();
+            $users= $userModel->getUserCount();
+            $authorizedYsers=$userModel->getAuthorizedUserCount();
+            $notAuthorizedUsers=$userModel->getNonAuthorizedUserCount();
+            include '../../views/admin/dashboard.php';
         } else {
             header("location:login");
         }
-        
+
     }
 
 
-    public function wikiDetails(){
+    public function wikiDetails()
+    {
         if (isset($_SESSION["userId"])) {
             $userSId = $_SESSION["userId"];
             $user = new UserModel();
@@ -33,66 +48,71 @@ class AdminDashController{
         } else {
             $userData = null;
         }
-        $id=$_GET['id'];
-        $wikiModel=new WikiModel();
-        $wikiDetails= $wikiModel->getById($id);
+        $id = $_GET['id'];
+        $wikiModel = new WikiModel();
+        $wikiDetails = $wikiModel->getById($id);
         include '../../views/admin/wiki/details.php';
     }
-    public function BlockUser(){
+    public function BlockUser()
+    {
         $currentPage = $_POST['URL'];
-        $id= $_POST['user'];
+        $id = $_POST['user'];
         $userModel = new UserModel();
-        $userModel->setUserStatus($id,'Not Authorized');
+        $userModel->setUserStatus($id, 'Not Authorized');
         header("Location: $currentPage");
         exit();
     }
 
-    public function AUthorizeUser(){
+    public function AUthorizeUser()
+    {
         $currentPage = $_POST['URL'];
-        $id= $_POST['user'];
+        $id = $_POST['user'];
         $userModel = new UserModel();
-        $userModel->setUserStatus($id,'Authorized');
+        $userModel->setUserStatus($id, 'Authorized');
         header("Location: $currentPage");
         exit();
     }
 
 
 
-   public function dispalyAuthors(){
-    if (isset($_SESSION["userId"])) {
-        $userSId = $_SESSION["userId"];
-        $userModel = new UserModel();
-        $userData = $userModel->getUserById($userSId);
+    public function dispalyAuthors()
+    {
+        if (isset($_SESSION["userId"])) {
+            $userSId = $_SESSION["userId"];
+            $userModel = new UserModel();
+            $userData = $userModel->getUserById($userSId);
 
-        $users=$userModel->getAll();
-        include '../../views/admin/displayUser.php';
+            $users = $userModel->getAll();
+            include '../../views/admin/displayUser.php';
 
-    } else {
-        $userData = null;
+        } else {
+            $userData = null;
+        }
+
     }
 
-}
 
+    public function adminWikis()
+    {
 
-public function adminWikis(){
+        if (isset($_SESSION["userId"])) {
+            $userSId = $_SESSION["userId"];
+            $user = new UserModel();
+            $userData = $user->getUserById($userSId);
 
-    if (isset($_SESSION["userId"])) {
-        $userSId = $_SESSION["userId"];
-        $user = new UserModel();
-        $userData = $user->getUserById($userSId);
+        } else {
+            $userData = null;
+        }
 
-    } else {
-        $userData = null;
+        if ($_SESSION["isAdmin"]) {
+            $wikiModel = new WikiModel();
+            $wikis = $wikiModel->getAll();
+            include '../../views/admin/wiki/display.php';
+        } else {
+            header("location:login");
+        }
+
     }
-    if ($_SESSION["isAdmin"]) {
-        $wikiModel=new WikiModel();
-    $wikis= $wikiModel->getAll();
-    include '../../views/admin/dashboard.php';
-    } else {
-        header("location:login");
-    }
-
-}
 
 
 

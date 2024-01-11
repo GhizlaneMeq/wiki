@@ -157,6 +157,23 @@ class UserModel
         }
     }
 
+    public function getUserCount() {
+        $query = "SELECT COUNT(*) as count FROM users";
+        $result = $this->database->getConnection()->query($query);
+        return $result->fetch(PDO::FETCH_ASSOC)['count'];
+    }
+
+    public function getAuthorizedUserCount() {
+        $query = "SELECT COUNT(*) as count FROM users WHERE status = 'authorized'";
+        $result = $this->database->getConnection()->query($query);
+        return $result->fetch(PDO::FETCH_ASSOC)['count'];
+    }
+
+    public function getNonAuthorizedUserCount() {
+        $query = "SELECT COUNT(*) as count FROM users WHERE status = 'Not Authorized'";
+        $result = $this->database->getConnection()->query($query);
+        return $result->fetch(PDO::FETCH_ASSOC)['count'];
+    }
 
 
 

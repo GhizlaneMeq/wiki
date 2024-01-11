@@ -19,55 +19,51 @@
 
         <div class="mt-4 max-w-4xl mx-auto">
 
-   
+
 
             <section class="mt-8 p-6 bg-white rounded-md shadow-md">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <?php
-                    foreach ($wikis as $wiki) {
-                        ?>
-                        <div class="bg-white p-4 rounded-lg shadow-md">
-                            <a href="wiki-details?id=<?php echo $wiki->getId(); ?>" class="block">
-                                <img src="<?php echo $wiki->getImage(); ?>" alt="Wiki Image"
-                                    class="w-full h-32 object-cover mb-4">
-                                <h3 class="text-lg font-semibold mb-2">
-                                    <?php echo $wiki->getTitle(); ?>
-                                </h3>
-                                <p class="text-gray-600 text-sm mb-2">
-                                    <?php echo $wiki->getDateCreation(); ?>
-                                </p>
-                                <p class="text-gray-700">
-                                <?php echo implode(' ', array_slice(explode(' ', $wiki->getContent()), 0, 20)); ?>...
-                                </p>
-                                <p><strong>Category:</strong>
-                                    <?php echo $wiki->getCategoryId(); ?>
-                                </p>
-                                <p><strong>Author:</strong>
-                                    <?php echo $wiki->getUserId(); ?>
-                                </p>
-                                <p><strong>Tags:</strong>
-                                    <?php echo implode(', ', $wiki->getTags()); ?>
-                                </p>
-
-                                
-                            </a>
-                            <?php if ($wiki->isArchived()): ?>
-                                    <form action="disarchive-wiki" method="post" class="inline-block">
-                                        <input type="hidden" name="wiki_id" value="<?php echo $wiki->getId(); ?>">
-                                        <button type="submit" class="text-red-500">Disarchive Wiki</button>
-                                    </form>
-                                <?php else: ?>
-                                    <form action="archive-wiki" method="post" class="inline-block">
-                                        <input type="hidden" name="wiki_id" value="<?php echo $wiki->getId(); ?>">
-                                        <button type="submit" class="text-green-500">Archive Wiki</button>
-                                    </form>
-                                <?php endif; ?>
+                <div class="mt-4 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><?=$wikis?></span>
+                            <h3 class="text-base font-normal text-gray-500">Wikis</h3>
                         </div>
-                        <?php
-                    }
-                    ?>
+                        
+                    </div>
+
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><?=$tags?></span>
+                            <h3 class="text-base font-normal text-gray-500">Tags</h3>
+                        </div>
+                        
+                    </div>
+
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><?=$users?></span>
+                            <h3 class="text-base font-normal text-gray-500">Users</h3>
+                        </div>
+                        
+                    </div>
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><?=$authorizedYsers?></span>
+                            <h3 class="text-base font-normal text-gray-500">Authorized Users</h3>
+                        </div>
+                        
+                    </div>
+
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <span class="text-2xl sm:text-3xl leading-none font-bold text-gray-900"><?=$notAuthorizedUsers?></span>
+                            <h3 class="text-base font-normal text-gray-500">None Authorized Users</h3>
+                        </div>
+                        
+                    </div>
                 </div>
+
 
             </section>
 

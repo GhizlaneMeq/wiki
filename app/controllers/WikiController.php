@@ -8,6 +8,7 @@ use App\models\WikiModel;
 
 class WikiController
 {
+
     public function index()
     {
         if (isset($_SESSION["userId"])) {
@@ -17,6 +18,7 @@ class WikiController
         } else {
             $userData = null;
         }
+
         $wikiModel = new WikiModel();
         $wikis = $wikiModel->getWikisByUser($_SESSION['userId']);
         include '../../views/auteur/displayWiki.php';
@@ -27,11 +29,11 @@ class WikiController
 
 
 
-        $userSId= $_SESSION['userId'];
+        $userSId = $_SESSION['userId'];
         if (isset($_POST['title'], $_POST['content'], $_POST['category'], $_POST['tags'], $_FILES['image'])) {
-             
+
             $title = htmlspecialchars($_POST['title']);
-            $content = htmlspecialchars($_POST['content']);
+            $content = $_POST['content'];
             $category = htmlspecialchars($_POST['category']);
             $tags = $_POST['tags'];
 
@@ -152,7 +154,7 @@ class WikiController
             $userSId = $_SESSION["userId"];
             $user = new UserModel();
             $userData = $user->getUserById($userSId);
-            $userName= $userData->getName();
+            $userName = $userData->getName();
         } else {
             $userData = null;
         }
@@ -162,7 +164,7 @@ class WikiController
             $wikiModel = new WikiModel();
             $wiki = $wikiModel->getById($wikiId);
 
-            $wikis=$wikiModel->getWikisByUserName($wiki->getUserId());
+            $wikis = $wikiModel->getWikisByUserName($wiki->getUserId());
 
             if ($wiki) {
                 include '../../views/wikiDetails.php';

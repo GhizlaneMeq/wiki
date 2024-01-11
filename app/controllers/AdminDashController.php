@@ -39,9 +39,39 @@ class AdminDashController{
         include '../../views/admin/wiki/details.php';
     }
     public function BlockUser(){
-        $userModel=new UserModel();
-        $userModel->setUserStatus(3);
+        $currentPage = $_POST['URL'];
+        $id= $_POST['user'];
+        $userModel = new UserModel();
+        $userModel->setUserStatus($id,'Not Authorized');
+        header("Location: $currentPage");
+        exit();
     }
+
+    public function AUthorizeUser(){
+        $currentPage = $_POST['URL'];
+        $id= $_POST['user'];
+        $userModel = new UserModel();
+        $userModel->setUserStatus($id,'Authorized');
+        header("Location: $currentPage");
+        exit();
+    }
+
+
+
+   public function dispalyAuthors(){
+    if (isset($_SESSION["userId"])) {
+        $userSId = $_SESSION["userId"];
+        $userModel = new UserModel();
+        $userData = $userModel->getUserById($userSId);
+
+        $users=$userModel->getAll();
+        include '../../views/admin/displayUser.php';
+
+    } else {
+        $userData = null;
+    }
+
+   }
 }
 
 

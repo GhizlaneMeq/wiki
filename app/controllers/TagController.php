@@ -41,6 +41,13 @@ class TagController
 
     public function updateTag()
     {
+        if (isset($_SESSION["userId"])) {
+            $userSId = $_SESSION["userId"];
+            $user = new UserModel();
+            $userData = $user->getUserById($userSId);
+        } else {
+            $userData = null;
+        } 
         $tagId = $_GET['id'];
         $tagModel = new TagModel();
         $tag = $tagModel->getById($tagId);

@@ -73,7 +73,7 @@ class AuthController
 
         if ($userData) {
             if (password_verify($password, $userData->getPassword())) {
-                $userModel->setUserStatus($email);
+                //$userModel->setUserStatus($email);
                 switch ($userData->getRoleId()) {
                     case 1:
                         $_SESSION['isAdmin'] = true;

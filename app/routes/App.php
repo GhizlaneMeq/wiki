@@ -2,6 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
 require_once '../../vendor/autoload.php';
 
 use App\routes\Router;
@@ -33,6 +34,9 @@ $router->setRoutes([
         'update-tag'=> ['TagController', 'updateTag'],
         'wiki-details'=> ['AdminDashController', 'wikiDetails'],
         'my-profile'=> ['AuthorDashController', 'updateProfile'],
+        'Authors'=> ['AdminDashController', 'dispalyAuthors'],
+       // 'block-user'=> ['AdminDashController', 'BlockUser'],
+
 
     ],
     'POST' => [
@@ -48,6 +52,7 @@ $router->setRoutes([
         'disarchive-wiki'=> ['WikiController', 'disarchiveWiki'],
         'block-user'=> ['AdminDashController', 'BlockUser'],
         'submit-update-profile'=> ['AuthorDashController', 'submitUpdate'],
+        'authorize-user'=> ['AdminDashController', 'AuthorizeUser'],
 
 
     ]

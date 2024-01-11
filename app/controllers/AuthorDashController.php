@@ -83,7 +83,7 @@ class AuthorDashController
 
             if (in_array(strtolower($fileExtension), $allowedExtensions)) {
                 $temp_name = $_FILES['image']['tmp_name'];
-                $folder = "/public/img/" . $newImage;
+                $folder = "public/img/" . $newImage;
                 move_uploaded_file($temp_name, __DIR__ . '/../../' . $folder);
             } else {
 

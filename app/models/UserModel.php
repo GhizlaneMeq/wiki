@@ -122,10 +122,11 @@ class UserModel
         return null;
     }
 
-    public function setUserStatus($id)
+    public function setUserStatus($id,$status)
     {
-        $query = $this->database->getConnection()->prepare("UPDATE `users` SET `status` = 'Not Authorized' WHERE `users`.`id` =:id");
+        $query = $this->database->getConnection()->prepare("UPDATE `users` SET `status` = :status WHERE `users`.`id` =:id");
         $query->bindValue(':id', $id);
+        $query->bindValue(':status', $status);
         $query->execute();
         header('location:');
 

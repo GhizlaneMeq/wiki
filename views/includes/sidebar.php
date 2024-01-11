@@ -112,7 +112,7 @@
             </a>
           </li>
           <li>
-            <a href="https://demo.themesberg.com/windster-pro/kanban/" target="_blank"
+            <a href="wikis" 
               class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
               <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -121,13 +121,12 @@
                 </path>
               </svg>
               <span class="ml-3 flex-1 whitespace-nowrap">Wikis</span>
-              <span
-                class="bg-gray-200 text-gray-800 ml-3 text-sm font-medium inline-flex items-center justify-center px-2 rounded-full">Pro</span>
+              
             </a>
           </li>
 
           <li>
-            <a href="category" target="_blank"
+            <a href="category" 
               class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
               <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -136,13 +135,12 @@
                 </path>
               </svg>
               <span class="ml-3 flex-1 whitespace-nowrap">Categories</span>
-              <span
-                class="bg-gray-200 text-gray-800 ml-3 text-sm font-medium inline-flex items-center justify-center px-2 rounded-full">Pro</span>
+              
             </a>
           </li>
 
           <li>
-            <a href="tag" target="_blank"
+            <a href="tag" 
               class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
               <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
                 fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -151,13 +149,27 @@
                 </path>
               </svg>
               <span class="ml-3 flex-1 whitespace-nowrap">Tags</span>
-              <span
-                class="bg-gray-200 text-gray-800 ml-3 text-sm font-medium inline-flex items-center justify-center px-2 rounded-full">Pro</span>
+              
+            </a>
+          </li>
+
+          <li>
+            <a href="Authors" 
+              class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group bg-gray-100">
+              <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
+                fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                </path>
+              </svg>
+              <span class="ml-3 flex-1 whitespace-nowrap">Authors</span>
+              
             </a>
           </li>
 
 
-          <a href="logout" target="_blank"
+
+          <a href="logout" 
             class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
             <svg class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
               fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -167,6 +179,8 @@
             </svg>
             <span class="ml-3">logout</span>
           </a>
+
+          
       </div>
     </div>
   </div>

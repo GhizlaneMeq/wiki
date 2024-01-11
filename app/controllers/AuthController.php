@@ -39,32 +39,35 @@ class AuthController
 
 
     public function signup()
-    {
-        
+{
+    try {
         $name = $_POST['name'];
         $email = $_POST['email'];
         $password = $_POST['password'];
-        $confirmedPassword = $_POST['cpassword'];
         $role_id = 2;
 
         $userModel = new UserModel();
         $exist = $userModel->getUserByEmail($email);
+
         if ($exist) {
-            $error = 'Username or email has already been taken';
-            echo $error;
-        } elseif ($password !== $confirmedPassword) {
-            $error = 'Passwords do not match';
-            echo $error;
+            throw new \Exception('Username or email has already been taken');
         } else {
-            $user = new User(null,$name, $email, $password, null, null, $status = 'authorized', $role_id);
+            $user = new User(null, $name, $email, $password, null, null, 'authorized', $role_id);
             $userModel->save($user);
             header('location:login');
+            exit(); 
         }
+    } catch (\Exception $e) {
+        
+        header('location:register?error=' . urlencode($e->getMessage()));
+        exit();
     }
+}
 
-    public function signin()
-    {
 
+public function signin()
+{
+    try {
         $email = $_POST['email'];
         $password = $_POST['password'];
 
@@ -73,34 +76,35 @@ class AuthController
 
         if ($userData) {
             if (password_verify($password, $userData->getPassword())) {
-                //$userModel->setUserStatus($email);
                 switch ($userData->getRoleId()) {
                     case 1:
                         $_SESSION['isAdmin'] = true;
-                        $_SESSION['userId'] = $userData->getId(); 
-                         header('location:admin-dashboard'); 
-                        echo 'admin';
+                        $_SESSION['userId'] = $userData->getId();
+                        header('location:admin-dashboard');
                         break;
                     case 2:
                         $_SESSION['isAuthor'] = true;
-                        $_SESSION['userId'] = $userData->getId(); 
-                        header('location:home'); 
-                        
+                        $_SESSION['userId'] = $userData->getId();
+                        header('location:home');
                         break;
-                   
-                    
                 }
             } else {
-                echo 'incorrect Password';
+                throw new \Exception('Incorrect Password');
             }
         } else {
-            echo 'user doesnt exist';
+            throw new \Exception('User doesn\'t exist');
         }
-    }
-    public function logout(){
-        session_destroy();
-        header("location: login");
+    } catch (\Exception $e) {
+        
+        header('location:login?error=' . urlencode($e->getMessage()));
         exit();
-    
     }
+}
+public function logout()
+    {
+        session_destroy();
+        header('location: login?message=' . urlencode('You have been successfully logged out.'));
+        exit();
+    }
+    
 }

@@ -24,12 +24,12 @@ class WikiModel
     {
         try {
             $query = $this->database->getConnection()->query("SELECT wikis.*, users.name AS user_name, categories.name AS category_name, GROUP_CONCAT(tags.label) AS tag_labels
-                FROM `wikis`
-                LEFT JOIN `users` ON wikis.user_id = users.id
-                LEFT JOIN `categories` ON wikis.category_id = categories.id
-                LEFT JOIN `wikis_tags` ON wikis.id = wikis_tags.wiki_id
-                LEFT JOIN `tags` ON wikis_tags.tag_id = tags.id
-                GROUP BY wikis.id");
+            FROM `wikis`
+            LEFT JOIN `users` ON wikis.user_id = users.id
+            LEFT JOIN `categories` ON wikis.category_id = categories.id
+            LEFT JOIN `wikis_tags` ON wikis.id = wikis_tags.wiki_id
+            LEFT JOIN `tags` ON wikis_tags.tag_id = tags.id
+            GROUP BY wikis.id");
 
             $wikiData = $query->fetchAll(PDO::FETCH_ASSOC);
             $wikis = array();

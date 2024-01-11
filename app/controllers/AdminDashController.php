@@ -107,7 +107,7 @@ class AdminDashController
         if ($_SESSION["isAdmin"]) {
             $wikiModel = new WikiModel();
             $wikis = $wikiModel->getAll();
-            include '../../views/admin/wiki/display.php';
+           include '../../views/admin/wiki/display.php';
         } else {
             header("location:login");
         }

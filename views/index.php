@@ -18,7 +18,7 @@
         }
     </style>
 
-    <<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer>
         </script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
             integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
@@ -141,23 +141,7 @@
                 </div>
             </div>
 
-            <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-                <p class="text-xl font-semibold pb-5">About Us</p>
-
-                <div class="flex flex-wrap">
-                    <?php foreach ($Recentcategories as $recentCategory): ?>
-                        <div class="category-item relative group">
-                            <a href="#"
-                                class=" bg-blue-600 rounded py-2 px-4 mx-2 mb-2 inline-block w-full h-full text-black ">
-                                <?= $recentCategory->getName() ?>
-                            </a>
-                            <img src="https://source.unsplash.com/collection/1346951/150x150?sig=1" alt="Category Image"
-                                class="absolute top-0 left-0 w-full h-full object-cover rounded opacity-50 group-hover:opacity-100">
-                        </div>
-                    <?php endforeach ?>
-                </div>
-            </div>
-
+           
 
 
             <div class="w-full bg-white shadow flex flex-col my-4 p-6">
@@ -172,7 +156,7 @@
                 </div>
                 <a href="#"
                     class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-6">
-                    <i class="fab fa-instagram mr-2"></i> Follow @dgrzyb
+                    see more
                 </a>
             </div>
 
@@ -279,7 +263,6 @@
                 continueReadingLink.href = `see-details-wiki?id=${wiki.id}`;
                 continueReadingLink.innerHTML = `Continue Reading <i class="fas fa-arrow-right"></i>`;
 
-                // Append elements to the article
                 div.appendChild(categoryLink);
                 div.appendChild(titleLink);
                 div.appendChild(authorLink);
@@ -289,7 +272,6 @@
                 article.appendChild(img);
                 article.appendChild(div);
 
-                // Append the article to searchResults
                 searchResults.appendChild(article);
             });
         }

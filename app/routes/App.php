@@ -45,7 +45,7 @@ $router->setRoutes([
         'submit-register' =>['AuthController','signup'],
         'submit-login' =>['AuthController','signin'],
         'add-wik' => ['WikiController', 'addWiki'],
-        'submit-update-wiki' => ['WikiController', 'SubmitUpdateWiki'],
+        'submit-update-wiki' => ['WikiController', 'submitUpdateWiki'],
         'add-category'=> ['CategoryController', 'addCategory'],
         'submit-update-category'=> ['CategoryController', 'submitUpdateCategory'],
         'add-tag'=> ['TagController', 'addTag'],

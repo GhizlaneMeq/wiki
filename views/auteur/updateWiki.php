@@ -39,7 +39,16 @@
 <body>
     <?php include '../../views/includes/nav.php' ?>
 
+    <?php
+    $error = isset($_GET['error']) ? urldecode($_GET['error']) : null;
 
+    if ($error) {
+        echo '<div class=" mt-5 m-auto  flex items-center justify-center flex  w-1/2 bg-red-200 p-4 mb-4 rounded-md border border-red-500 text-red-700">';
+        echo $error;
+        echo '</div>';
+    }
+
+    ?>
     <div class="flex">
 
 
@@ -47,7 +56,7 @@
             <section class="max-w-4xl p-6 mx-auto bg-indigo-600 rounded-md shadow-md dark:bg-gray-800 mt-20">
                 <h1 class="text-xl font-bold text-white capitalize dark:text-white">Update Wiki</h1>
                 <form action="submit-update-wiki" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="id" value="<?php echo htmlspecialchars($wiki->getId()); ?>">
+                    <input type="text" name="id" value="<?=$wiki->getId(); ?>">
                     <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                         <div>
                             <label class="text-white dark:text-gray-200" for="title">Title</label>

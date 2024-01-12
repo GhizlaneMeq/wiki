@@ -25,10 +25,10 @@ class WikiModel
         try {
             $query = $this->database->getConnection()->query("SELECT wikis.*, users.name AS user_name, categories.name AS category_name, GROUP_CONCAT(tags.label) AS tag_labels
             FROM `wikis`
-            LEFT JOIN `users` ON wikis.user_id = users.id
-            LEFT JOIN `categories` ON wikis.category_id = categories.id
-            LEFT JOIN `wikis_tags` ON wikis.id = wikis_tags.wiki_id
-            LEFT JOIN `tags` ON wikis_tags.tag_id = tags.id
+             JOIN `users` ON wikis.user_id = users.id
+             JOIN `categories` ON wikis.category_id = categories.id
+             JOIN `wikis_tags` ON wikis.id = wikis_tags.wiki_id
+             JOIN `tags` ON wikis_tags.tag_id = tags.id
             GROUP BY wikis.id");
 
             $wikiData = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -267,17 +267,18 @@ class WikiModel
     }
 
     public function searchWikis($searchInput)
-    {
-        $searchInput = "%$searchInput%";
+{
+    $searchInput = "%$searchInput%";
 
-        $sql = "SELECT DISTINCT w.*, u.name AS user_name, c.name AS category_name, GROUP_CONCAT(t.label) AS tag_labels FROM wikis w LEFT JOIN users u ON w.user_id = u.id LEFT JOIN categories c ON w.category_id = c.id LEFT JOIN wikis_tags wt ON w.id = wt.wiki_id LEFT JOIN tags t ON wt.tag_id = t.id WHERE w.title LIKE '%Machine Learning Basics%' OR w.content LIKE '%Machine Learning Basics%' OR u.name LIKE '%Machine Learning Basics%' OR c.name LIKE '%Machine Learning Basics%' OR t.label LIKE '%Machine Learning Basics%' GROUP BY w.id, u.name, c.name";
+    $sql = "SELECT DISTINCT w.*, u.name AS user_name, c.name AS category_name, GROUP_CONCAT(t.label) AS tag_labels FROM wikis w LEFT JOIN users u ON w.user_id = u.id  JOIN categories c ON w.category_id = c.id  JOIN wikis_tags wt ON w.id = wt.wiki_id  JOIN tags t ON wt.tag_id = t.id WHERE w.title LIKE :searchInput OR w.content LIKE :searchInput OR u.name LIKE :searchInput OR c.name LIKE :searchInput OR t.label LIKE :searchInput GROUP BY w.id, u.name, c.name";
 
-        $stmt = $this->database->getConnection()->prepare($sql);
-        
-        $stmt->execute();
+    $stmt = $this->database->getConnection()->prepare($sql);
+    $stmt->bindParam(':searchInput', $searchInput, PDO::PARAM_STR);
+    
+    $stmt->execute();
 
-        $wikiData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        $wikis = array();
+    $wikiData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
         foreach ($wikiData as $wikiRow) {
             $wikis[] = new Wiki(
@@ -294,7 +295,7 @@ class WikiModel
             );
         }
 
-        return $wikis;
+        return $wikiData;
     }
 
 }

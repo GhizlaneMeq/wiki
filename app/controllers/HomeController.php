@@ -5,7 +5,7 @@ namespace App\controllers;
 use App\models\CategoryModel;
 use App\models\UserModel;
 use App\models\WikiModel;
-
+use Illuminate\Http\JsonResponse;
 class HomeController
 {
 
@@ -30,17 +30,19 @@ class HomeController
     }
 
     public function search()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['searchInput'])) {
-            $searchQuery = $_POST['searchInput'];
-            $WikiModel = new WikiModel();
-            $searchedWikis = $WikiModel->searchWikis($searchQuery);
+{
+    if (isset($_GET['q'])) {
+        $searchQuery = $_GET['q'];
+        $WikiModel = new WikiModel();
+        $searchedWikis = $WikiModel->searchWikis($searchQuery);
 
-            var_dump($searchedWikis);
-
-            return $searchedWikis;
-        }
-
+        echo json_encode($searchedWikis);
+       
     }
 }
+
+    
+}
+
+
 ?>

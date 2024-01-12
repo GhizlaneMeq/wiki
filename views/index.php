@@ -18,15 +18,17 @@
         }
     </style>
 
-    <!--  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script> -->
+    <<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer>
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
+            integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 </head>
 
 <body class="bg-white font-family-karla">
 
     <?php include 'includes/nav.php' ?>
 
-    <!-- Text Header -->
+
     <header class="w-full container mx-auto flex flex-col lg:flex-row mt-24 mb-11">
         <div class="lg:w-1/2 mb-8 lg:mb-0 order-2 lg:order-1">
             <h1 class="text-4xl lg:text-6xl font-bold mb-6"><span class="text-blue-800">Wiki:</span> Your Gateway to
@@ -35,16 +37,15 @@
                     gateway to collaborative knowledge sharing.</span> Dive into a world where users explore, create,
                 and share wikis on a diverse range of topics.</p>
             <div class="flex items-center space-x-4 mb-4">
-                <form action="home" method="post">
-                <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Search...">
-                <button type="submit" class="bg-blue-800 text-white px-4 py-2 rounded-full lg:inline-block hidden">Search</button>
+                <form action="search" method="post" id="searchForm">
+                    <input type="text" name="searchInput" id="searchInput"
+                        class="w-full p-2 border border-gray-300 rounded" placeholder="Search...">
+                    <button type="submit"
+                        class="bg-blue-800 text-white px-4 py-2 rounded-full lg:inline-block hidden">Search</button>
                 </form>
-                
+
             </div>
         </div>
-        <div id="searchResults">
-    <!-- Search results will be inserted here using Ajax -->
-</div>
 
 
         <div class="lg:w-1/2 order-1 lg:order-2 mt-4 lg:mt-0 ">
@@ -53,7 +54,7 @@
         </div>
     </header>
 
-    <!-- Topic Nav -->
+
     <nav class="w-full py-4 border-t border-b bg-gray-100" x-data="{ open: false }">
         <div class="block sm:hidden">
             <a href="#"
@@ -77,40 +78,73 @@
 
     <div class="container mx-auto flex flex-wrap py-6" id="wikis">
 
-        <section class="w-full md:w-2/3 flex flex-col items-center px-3">
-
-            <?php foreach ($wikis as $wiki): ?>
-                <article class="flex flex-col shadow my-4">
-
-                    <img style="width: 800px; height:300px;" class="hover:opacity-75"
-                        src="<?php echo $wiki->getImage(); ?>">
-
-                    <div class="bg-white flex flex-col justify-start p-6">
-                        <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">
-                            <?php echo $wiki->getCategoryId(); ?>
-                        </a>
-                        <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">
-                            <?php echo $wiki->getTitle(); ?>
-                        </a>
-                        <p href="#" class="text-sm pb-3">
-                            By <a href="#" class="font-semibold hover:text-gray-800">
-                                <?php echo $wiki->getUserId(); ?>
-                            </a>, Published on
-                            <?php echo $wiki->getDateCreation(); ?>
-                        </p>
-                        <a href="#" class="pb-6">
-                            <?php echo implode(' ', array_slice(explode(' ', $wiki->getContent()), 0, 30)); ?>...
-                        </a>
-                        <a href="see-details-wiki?id=<?php echo $wiki->getId(); ?>"
-                            class="uppercase text-gray-800 hover:text-black">Continue Reading <i
-                                class="fas fa-arrow-right"></i></a>
-                    </div>
-                </article>
-            <?php endforeach ?>
+        <section id="searchResults" class="w-full md:w-2/3 flex flex-col items-center px-3">
 
 
 
 
+
+            <?php if (isset($searchedWikis)): ?>
+                <?php foreach ($searchedWikis as $wiki): ?>
+                    <article class="flex flex-col shadow my-4">
+                        <article class="flex flex-col shadow my-4">
+
+                            <img style="width: 800px; height:300px;" class="hover:opacity-75"
+                                src="<?php echo $wiki->getImage(); ?>">
+
+                            <div class="bg-white flex flex-col justify-start p-6">
+                                <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">
+                                    <?php echo $wiki->getCategoryId(); ?>
+                                </a>
+                                <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">
+                                    <?php echo $wiki->getTitle(); ?>
+                                </a>
+                                <p href="#" class="text-sm pb-3">
+                                    By <a href="#" class="font-semibold hover:text-gray-800">
+                                        <?php echo $wiki->getUserId(); ?>
+                                    </a>, Published on
+                                    <?php echo $wiki->getDateCreation(); ?>
+                                </p>
+                                <a href="#" class="pb-6">
+                                    <?php echo implode(' ', array_slice(explode(' ', $wiki->getContent()), 0, 30)); ?>...
+                                </a>
+                                <a href="see-details-wiki?id=<?php echo $wiki->getId(); ?>"
+                                    class="uppercase text-gray-800 hover:text-black">Continue Reading <i
+                                        class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </article>
+                    </article>
+                <?php endforeach ?>
+            <?php else: ?>
+                <?php foreach ($wikis as $wiki): ?>
+                    <article class="flex flex-col shadow my-4">
+
+                        <img style="width: 800px; height:300px;" class="hover:opacity-75"
+                            src="<?php echo $wiki->getImage(); ?>">
+
+                        <div class="bg-white flex flex-col justify-start p-6">
+                            <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4">
+                                <?php echo $wiki->getCategoryId(); ?>
+                            </a>
+                            <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4">
+                                <?php echo $wiki->getTitle(); ?>
+                            </a>
+                            <p href="#" class="text-sm pb-3">
+                                By <a href="#" class="font-semibold hover:text-gray-800">
+                                    <?php echo $wiki->getUserId(); ?>
+                                </a>, Published on
+                                <?php echo $wiki->getDateCreation(); ?>
+                            </p>
+                            <a href="#" class="pb-6">
+                                <?php echo implode(' ', array_slice(explode(' ', $wiki->getContent()), 0, 30)); ?>...
+                            </a>
+                            <a href="see-details-wiki?id=<?php echo $wiki->getId(); ?>"
+                                class="uppercase text-gray-800 hover:text-black">Continue Reading <i
+                                    class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </article>
+                <?php endforeach ?>
+            <?php endif ?>
 
             <div class="flex items-center py-8">
                 <a href="#"
@@ -204,70 +238,39 @@
         </div>
     </footer>
 
-    <script>
-        function getCarouselData() {
-            return {
-                currentIndex: 0,
-                images: [
-                    'https://source.unsplash.com/collection/1346951/800x800?sig=1',
-                    'https://source.unsplash.com/collection/1346951/800x800?sig=2',
-                    'https://source.unsplash.com/collection/1346951/800x800?sig=3',
-                    'https://source.unsplash.com/collection/1346951/800x800?sig=4',
-                    'https://source.unsplash.com/collection/1346951/800x800?sig=5',
-                    'https://source.unsplash.com/collection/1346951/800x800?sig=6',
-                    'https://source.unsplash.com/collection/1346951/800x800?sig=7',
-                    'https://source.unsplash.com/collection/1346951/800x800?sig=8',
-                    'https://source.unsplash.com/collection/1346951/800x800?sig=9',
-                ],
-                increment() {
-                    this.currentIndex = this.currentIndex === this.images.length - 6 ? 0 : this.currentIndex + 1;
-                },
-                decrement() {
-                    this.currentIndex = this.currentIndex === this.images.length - 6 ? 0 : this.currentIndex - 1;
-                },
-            }
-        }
 
-
-        function searchWikis() {
-            var searchInput = document.getElementById('searchInput').value;
-
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'search-wikis.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var searchResults = JSON.parse(xhr.responseText);
-                    displaySearchResults(searchResults);
-                }
-            };
-
-            var params = 'searchInput=' + encodeURIComponent(searchInput);
-            xhr.send(params);
-        }
-
-        function displaySearchResults(results) {
-            var searchResultsContainer = document.getElementById('searchResults');
-            searchResultsContainer.innerHTML = '';
-
-            if (results.length > 0) {
-                for (var i = 0; i < results.length; i++) {
-                    var wiki = results[i];
-                    var resultElement = document.createElement('div');
-                    resultElement.innerHTML = '<h3>' + wiki.title + '</h3>' +
-                        '<p>Author: ' + wiki.user_name + '</p>' +
-                        '<p>Category: ' + wiki.category_name + '</p>';
-                    searchResultsContainer.appendChild(resultElement);
-                }
-            } else {
-                searchResultsContainer.innerHTML = '<p>No results found.</p>';
-            }
-        }
-    </script>
-
-
-    </script>
 
 </body>
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        const searchForm = document.querySelector('#searchForm');
+
+        searchForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            try {
+                const formData = new FormData(searchForm);
+                const response = await fetch('search', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.text();
+                    document.getElementById('searchResults').innerHTML = data;
+                    console.log(data);
+                } else {
+                    console.error('Failed to fetch search results:', response.statusText);
+                }
+
+            } catch (error) {
+                console.error('Error during fetch:', error);
+            }
+        });
+    });
+
+</script>
+
 
 </html>

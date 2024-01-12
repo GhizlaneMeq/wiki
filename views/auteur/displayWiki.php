@@ -11,12 +11,12 @@
 <body>
 <?php include '../../views/includes/nav.php' ?>
 
+<a class="text-blue-800 me-11" href="add-wiki">Add Wiki</a>
 
     <div class="flex">
 
 
         <div class='overflow-x-auto w-full mt-5 '>
-            <a class="text-blue-800 ms-11" href="add-wiki">Add Wiki</a>
             <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <?php foreach ($wikis as $wiki) : ?>
                     <div class="bg-white p-4 rounded-lg shadow-md">

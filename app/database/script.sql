@@ -22,7 +22,6 @@ CREATE TABLE users (
 CREATE TABLE categories (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    image VARCHAR(255) NOT NULL,
     description TEXT NULL
 );
 ALTER TABLE `categories` ADD `date_creation` TIMESTAMP NOT NULL AFTER `description`;

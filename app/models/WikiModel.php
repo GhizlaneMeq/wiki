@@ -268,22 +268,12 @@ class WikiModel
 
     public function searchWikis($searchInput)
     {
-        $searchInput = "%$searchInput%"; 
+        $searchInput = "%$searchInput%";
 
-        $sql = "SELECT DISTINCT w.*, u.name AS author, c.name AS category
-                FROM wikis w
-                LEFT JOIN users u ON w.user_id = u.id
-                LEFT JOIN categories c ON w.category_id = c.id
-                LEFT JOIN wikis_tags wt ON w.id = wt.wiki_id
-                LEFT JOIN tags t ON wt.tag_id = t.id
-                WHERE w.title LIKE :searchInput
-                OR w.content LIKE :searchInput
-                OR u.name LIKE :searchInput
-                OR c.name LIKE :searchInput
-                OR t.label LIKE :searchInput";
+        $sql = "SELECT DISTINCT w.*, u.name AS user_name, c.name AS category_name, GROUP_CONCAT(t.label) AS tag_labels FROM wikis w LEFT JOIN users u ON w.user_id = u.id LEFT JOIN categories c ON w.category_id = c.id LEFT JOIN wikis_tags wt ON w.id = wt.wiki_id LEFT JOIN tags t ON wt.tag_id = t.id WHERE w.title LIKE '%Machine Learning Basics%' OR w.content LIKE '%Machine Learning Basics%' OR u.name LIKE '%Machine Learning Basics%' OR c.name LIKE '%Machine Learning Basics%' OR t.label LIKE '%Machine Learning Basics%' GROUP BY w.id, u.name, c.name";
 
         $stmt = $this->database->getConnection()->prepare($sql);
-        $stmt->bindParam(':searchInput', $searchInput, PDO::PARAM_STR);
+        
         $stmt->execute();
 
         $wikiData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -306,4 +296,5 @@ class WikiModel
 
         return $wikis;
     }
+
 }

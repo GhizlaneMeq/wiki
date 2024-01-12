@@ -52,7 +52,6 @@ class AuthorDashController
                 $userData = null;
                 header('location:login');
             }
-
         } else {
             header("location:login");
         }

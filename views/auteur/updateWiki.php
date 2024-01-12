@@ -37,7 +37,7 @@
 </head>
 
 <body>
-<?php include '../../views/includes/nav.php' ?>
+    <?php include '../../views/includes/nav.php' ?>
 
 
     <div class="flex">
@@ -59,21 +59,30 @@
                             <label class="text-white dark:text-gray-200" for="category">Select Category</label>
                             <select name="category"
                                 class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-                                <option value="1" <?php echo ($wiki->getCategoryId() == 1) ? 'selected' : ''; ?>>Technologie</option>
-                                <option value="2" <?php echo ($wiki->getCategoryId() == 2) ? 'selected' : ''; ?>>History</option>
-                                <option value="3" <?php echo ($wiki->getCategoryId() == 3) ? 'selected' : ''; ?>>Science</option>
+                                <?php foreach ($categories as $category): ?>
+                                    <option value="<?php echo $category->getId(); ?>" <?php echo ($category->getId() == $defaultCategoryId) ? 'selected' : ''; ?>>
+                                        <?php echo $category->getName(); ?>
+                                    </option>
+                                <?php endforeach; ?>
                             </select>
+
+
+
                         </div>
 
                         <div>
-                            <label class="text-white dark:text-gray-200" for="tag">Select Tag</label>
-                            <select name="tag"
+                            <label class="text-white dark:text-gray-200" for="tag">Select Tags</label>
+                            <select name="tags[]" multiple
                                 class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring">
-                                <?php foreach ($tags as $tag) : ?>
-                                    <option value="<?php echo $tag->getId(); ?>" <?php echo (in_array($tag->getId(), $wiki->getTagIds())) ? 'selected' : ''; ?>><?php echo $tag->getLabel(); ?></option>
+                                <?php foreach ($tags as $tag): ?>
+                                    <option value="<?php echo $tag->getId(); ?>" <?php echo (in_array($tag->getId(), $defaultTagIds)) ? 'selected' : ''; ?>>
+                                        <?php echo $tag->getLabel(); ?>
+                                    </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
+
+
 
                         <div>
                             <label class="text-white dark:text-gray-200" for="passwordConfirmation">Text Area</label>

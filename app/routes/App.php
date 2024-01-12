@@ -38,12 +38,7 @@ $router->setRoutes([
         'wiki-details'=> ['AdminDashController', 'wikiDetails'],
         'my-profile'=> ['AuthorDashController', 'updateProfile'],
         'Authors'=> ['AdminDashController', 'dispalyAuthors'],
-       // 'block-user'=> ['AdminDashController', 'BlockUser'],
-       'search'=> ['AdminDashController', 'search'],
-
-
-
-    ],
+        ],
     'POST' => [
         'submit-register' =>['AuthController','signup'],
         'submit-login' =>['AuthController','signin'],
@@ -59,8 +54,8 @@ $router->setRoutes([
         'submit-update-profile'=> ['AuthorDashController', 'submitUpdate'],
         'authorize-user'=> ['AdminDashController', 'AuthorizeUser'],
 
-        'home' => ['HomeController', 'index'],
-
+        'search' => ['HomeController', 'search'],
+        
 
     ]
 ]);

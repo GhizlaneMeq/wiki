@@ -11,7 +11,16 @@
 
 <body>
   <?php include '../../views/includes/nav.php' ?>
+  <?php
+  $error = isset($_GET['error']) ? urldecode($_GET['error']) : null;
 
+  if ($error) {
+    echo '<div class=" mt-5 m-auto  flex items-center justify-center flex  w-1/2 bg-red-200 p-4 mb-4 rounded-md border border-red-500 text-red-700">';
+    echo $error;
+    echo '</div>';
+}
+
+  ?>
   <div class="h-screen flex items-center justify-center">
     <div class="flex flex-col md:flex-row ">
       <img src="public/img/home.jpg" class="md:ml-4 mb-4 md:mb-0" alt="Image" style="width: 400px; height:700px ">

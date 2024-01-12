@@ -3,6 +3,8 @@
 namespace App\controllers;
 
 use App\entities\Wiki;
+use App\models\CategoryModel;
+use App\models\TagModel;
 use App\models\UserModel;
 use App\models\WikiModel;
 
@@ -52,7 +54,7 @@ class WikiController
             $image = $_FILES['image']['name'];
             $temp_name = $_FILES['image']['tmp_name'];
             $folder = "public/img/" . $image;
-            move_uploaded_file($temp_name, $folder);
+            move_uploaded_file($temp_name, __DIR__.'/../../'.$folder);
 
             $wikiModel = new WikiModel();
             $wiki = new Wiki(null, $title, $content, $folder, null, false, null, $userSId, $category);
@@ -78,18 +80,26 @@ class WikiController
     {
         try {
             $wikiId = isset($_GET['id']) ? $_GET['id'] : null;
-
+    
             if (!$wikiId) {
                 throw new \Exception("Invalid wiki ID");
             }
-
+    
             $wikiModel = new WikiModel();
             $wiki = $wikiModel->getById($wikiId);
-
+    
             if (!$wiki) {
                 throw new \Exception("Wiki not found");
             }
-
+    
+            $tagModel = new TagModel();
+            $tags = $tagModel->getAll();
+    
+            $categoryModel = new CategoryModel();
+            $categories = $categoryModel->getAll();
+            $defaultCategoryId = $wiki->getCategoryId(); 
+            $defaultTagIds = $wiki->getTags();
+    
             include '../../views/auteur/updateWiki.php';
             exit();
         } catch (\Exception $e) {
@@ -97,6 +107,7 @@ class WikiController
             exit();
         }
     }
+    
 
 
     public function submitUpdateWiki()
@@ -113,8 +124,9 @@ class WikiController
             $tag = htmlspecialchars($_POST['tag']);
 
             $wikiModel = new WikiModel();
-            $existingWiki = $wikiModel->getById($id);
+            $existingWiki = $wikiModel->getById(4);
 
+            echo $existingWiki;
             if (!$existingWiki) {
                 throw new \Exception("Invalid wiki ID");
             }

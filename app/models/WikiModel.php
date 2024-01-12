@@ -55,6 +55,41 @@ class WikiModel
         }
     }
 
+    public function getAllAailable()
+    {
+        try {
+            $query = $this->database->getConnection()->query("SELECT wikis.*, users.name AS user_name, categories.name AS category_name, GROUP_CONCAT(tags.label) AS tag_labels
+            FROM `wikis`
+             JOIN `users` ON wikis.user_id = users.id
+             JOIN `categories` ON wikis.category_id = categories.id
+             JOIN `wikis_tags` ON wikis.id = wikis_tags.wiki_id
+             JOIN `tags` ON wikis_tags.tag_id = tags.id
+             WHERE wikis.archived!= 1 or deleted_at	!=NULL
+            GROUP BY wikis.id");
+
+            $wikiData = $query->fetchAll(PDO::FETCH_ASSOC);
+            $wikis = array();
+
+            foreach ($wikiData as $wikiRow) {
+                $wikis[] = new Wiki(
+                    $wikiRow['id'],
+                    $wikiRow['title'],
+                    $wikiRow['content'],
+                    $wikiRow['image'],
+                    $wikiRow['deleted_at'],
+                    $wikiRow['archived'],
+                    $wikiRow['date_creation'],
+                    $wikiRow['user_name'],
+                    $wikiRow['category_name'],
+                    explode(',', $wikiRow['tag_labels'])
+                );
+            }
+
+            return $wikis;
+        } catch (PDOException $e) {
+            throw new Exception("Error fetching wikis: " . $e->getMessage());
+        }
+    }
     public function getWikisByUser($userId)
     {
         try {

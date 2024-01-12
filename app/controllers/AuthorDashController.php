@@ -13,7 +13,8 @@ class AuthorDashController
 
 
     public function addWiki()
-    {
+{
+    try{
         if ($_SESSION["isAuthor"]) {
             if (isset($_SESSION["userId"])) {
                 $userSId = $_SESSION["userId"];
@@ -23,19 +24,26 @@ class AuthorDashController
                 $userData = null;
             }
 
+            if ($userData->getStatus() == 'Authorized') {
+                $tagModel = new TagModel();
+                $tags = $tagModel->getAll();
 
-            $tagModel = new TagModel();
-            $tags = $tagModel->getAll();
+                $categoryModel = new CategoryModel();
+                $categories = $categoryModel->getAll();
 
-            $categoryModel = new CategoryModel();
-            $categories = $categoryModel->getAll();
-
-            include '../../views/auteur/addWiki.php';
+                include '../../views/auteur/addWiki.php';
+            }
+            else{
+                throw new \Exception("you are not athorized to add a wiki");
+            }
         } else {
             header("location:login");
         }
+    } catch (\Exception $e) {
+        header("Location: my-wikis&error=" . urlencode($e->getMessage()));
+        exit();
     }
-
+}
     public function updateProfile()
     {
         if ($_SESSION["isAuthor"]) {

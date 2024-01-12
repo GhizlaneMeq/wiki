@@ -13,6 +13,19 @@
 
 <a class="text-blue-800 me-11" href="add-wiki">Add Wiki</a>
 
+<?php
+                $message = isset($_GET['message']) ? urldecode($_GET['message']) : null;
+                $error = isset($_GET['error']) ? urldecode($_GET['error']) : null;
+
+                if ($message || $error) {
+                    $messageClass = $message ? 'success-message' : 'error-message';
+                    echo "<div class=\"{$messageClass} p-4 mb-4 rounded-md border bg-red-200 \">";
+                    echo $message ?? $error;
+                    echo '<span class="float-right cursor-pointer" onclick="closeMessage(this)">×</span>';
+                    echo '</div>';
+                }
+                ?>
+
     <div class="flex">
 
 

@@ -211,6 +211,7 @@ class WikiController
 
             $wikiModel = new WikiModel();
             $wiki = $wikiModel->getById($wikiId);
+            $userData = $user->getUserById($wiki->getUserId());
 
             if (!$wiki) {
                 throw new \Exception("Wiki not found");
@@ -243,10 +244,10 @@ class WikiController
 
             $wikiModel->archive($wikiId);
 
-            header("Location: admin-dashboard");
+            header("Location: wikis");
             exit();
         } catch (\Exception $e) {
-            header("Location: dashboard?error=" . urlencode($e->getMessage()));
+            header("Location: wikis?error=" . urlencode($e->getMessage()));
             exit();
         }
     }
@@ -266,10 +267,10 @@ class WikiController
 
             $wikiModel->disarchive($wikiId);
 
-            header("Location: admin-dashboard");
+            header("Location:wikis");
             exit();
         } catch (\Exception $e) {
-            header("Location: dashboard?error=" . urlencode($e->getMessage()));
+            header("Location: wikis?error=" . urlencode($e->getMessage()));
             exit();
         }
     }

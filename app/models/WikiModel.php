@@ -55,7 +55,7 @@ class WikiModel
         }
     }
 
-    public function getAllAailable()
+    public function getAllAvailable()
     {
         try {
             $query = $this->database->getConnection()->query("SELECT wikis.*, users.name AS user_name, categories.name AS category_name, GROUP_CONCAT(tags.label) AS tag_labels
@@ -64,7 +64,7 @@ class WikiModel
              JOIN `categories` ON wikis.category_id = categories.id
              JOIN `wikis_tags` ON wikis.id = wikis_tags.wiki_id
              JOIN `tags` ON wikis_tags.tag_id = tags.id
-             WHERE wikis.archived!= 1 or deleted_at	!=NULL
+             WHERE wikis.archived!= 1 or deleted_at	=NULL
             GROUP BY wikis.id");
 
             $wikiData = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -261,7 +261,7 @@ class WikiModel
     public function delete($id)
     {
         try {
-            $query = $this->database->getConnection()->prepare("DELETE FROM `wikis` WHERE id = :id");
+            $query = $this->database->getConnection()->prepare("UPDATE `wikis` SET `deleted_at`=NOW(),archived = 1 WHERE id = :id");
             $query->bindValue(':id', $id);
 
             $query->execute();
@@ -302,17 +302,17 @@ class WikiModel
     }
 
     public function searchWikis($searchInput)
-{
-    $searchInput = "%$searchInput%";
+    {
+        $searchInput = "%$searchInput%";
 
-    $sql = "SELECT DISTINCT w.*, u.name AS user_name, c.name AS category_name, GROUP_CONCAT(t.label) AS tag_labels FROM wikis w LEFT JOIN users u ON w.user_id = u.id  JOIN categories c ON w.category_id = c.id  JOIN wikis_tags wt ON w.id = wt.wiki_id  JOIN tags t ON wt.tag_id = t.id WHERE w.title LIKE :searchInput OR w.content LIKE :searchInput OR u.name LIKE :searchInput OR c.name LIKE :searchInput OR t.label LIKE :searchInput GROUP BY w.id, u.name, c.name";
+        $sql = "SELECT DISTINCT w.*, u.name AS user_name, c.name AS category_name, GROUP_CONCAT(t.label) AS tag_labels FROM wikis w LEFT JOIN users u ON w.user_id = u.id  JOIN categories c ON w.category_id = c.id  JOIN wikis_tags wt ON w.id = wt.wiki_id  JOIN tags t ON wt.tag_id = t.id WHERE w.title LIKE :searchInput OR w.content LIKE :searchInput OR u.name LIKE :searchInput OR c.name LIKE :searchInput OR t.label LIKE :searchInput GROUP BY w.id, u.name, c.name";
 
-    $stmt = $this->database->getConnection()->prepare($sql);
-    $stmt->bindParam(':searchInput', $searchInput, PDO::PARAM_STR);
-    
-    $stmt->execute();
+        $stmt = $this->database->getConnection()->prepare($sql);
+        $stmt->bindParam(':searchInput', $searchInput, PDO::PARAM_STR);
 
-    $wikiData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->execute();
+
+        $wikiData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
         foreach ($wikiData as $wikiRow) {

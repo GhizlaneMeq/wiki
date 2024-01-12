@@ -24,7 +24,7 @@ class AuthorDashController
                 $userData = null;
             }
 
-            if ($userData->getStatus() == 'Authorized') {
+            if ($userData->getStatus() == 'authorized') {
                 $tagModel = new TagModel();
                 $tags = $tagModel->getAll();
 

@@ -68,7 +68,7 @@ class AdminDashController
         $currentPage = $_POST['URL'];
         $id = $_POST['user'];
         $userModel = new UserModel();
-        $userModel->setUserStatus($id, 'Authorized');
+        $userModel->setUserStatus($id, 'authorized');
         header("Location: $currentPage");
         exit();
     }
@@ -137,7 +137,7 @@ class AdminDashController
         $tags = $tagModel->searchTags($query);
         $categories = $categoryModel->searchCategories($query);
     
-        // Now, you can include a view that will display the search results in a modal
+        
          foreach ($users as $user):
            echo $user->getName();
          endforeach;

@@ -52,6 +52,9 @@
                     <a href="#" class="pb-6">
                         <?php echo $wiki->getContent(); ?>
                     </a>
+                    <p><strong>Tags:</strong>
+                                    <?php echo implode('# ', $wiki->getTags()); ?>
+                                </p>
                     <?php if ($userName == $wiki->getUserId()) { ?>
 
                         <div class="mt-4 flex justify-between">
@@ -89,6 +92,10 @@
                             <a href="#" class="pb-6">
                                 <?php echo implode(' ', array_slice(explode(' ', $wiki->getContent()), 0, 30)); ?>...
                             </a>
+                            <p><strong>Tags:</strong>
+                                    <?php echo implode('# ', $wiki->getTags()); ?>
+                                </p>
+
                             <a href="see-details-wiki?id=<?php echo $wiki->getId(); ?>"
                                 class="uppercase text-gray-800 hover:text-black">Continue Reading <i
                                     class="fas fa-arrow-right"></i></a>

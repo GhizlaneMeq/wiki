@@ -22,7 +22,7 @@ class HomeController
             $userData = null;
         }
         $WikiModel = new WikiModel();
-        $wikis = $WikiModel->getAllAailable();
+        $wikis = $WikiModel->getAllAvailable();
 
 
         $categoryModel = new CategoryModel();

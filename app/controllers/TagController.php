@@ -11,6 +11,8 @@ class TagController
     public function index()
     {
         try {
+            if ($_SESSION["isAdmin"]) {
+
             if (!isset($_SESSION["userId"])) {
                 throw new \Exception("User not authenticated");
             }
@@ -26,6 +28,9 @@ class TagController
             $tagModel = new TagModel();
             $tags = $tagModel->getAll();
             include '../../views/admin/tag/add.php';
+        } else {
+            header("location:login");
+        }
         } catch (\Exception $e) {
             header("Location: error-page?message=" . urlencode($e->getMessage()));
             exit();
@@ -35,6 +40,8 @@ class TagController
     public function addTag()
     {
         try {
+            if ($_SESSION["isAdmin"]) {
+
             if (!isset($_POST['newTag'])) {
                 throw new \Exception("Invalid data. New tag not provided.");
             }
@@ -45,6 +52,9 @@ class TagController
 
             header("Location: tag?message=Tag added successfully");
             exit();
+        } else {
+            header("location:login");
+        }
         } catch (\Exception $e) {
             header("Location: manage-tags?error=" . urlencode($e->getMessage()));
             exit();
@@ -54,6 +64,8 @@ class TagController
     public function updateTag()
     {
         try {
+            if ($_SESSION["isAdmin"]) {
+
             if (!isset($_SESSION["userId"])) {
                 throw new \Exception("User not authenticated");
             }
@@ -80,6 +92,9 @@ class TagController
             }
 
             include '../../views/admin/tag/update.php';
+        } else {
+            header("location:login");
+        }
         } catch (\Exception $e) {
             header("Location: error-page?message=" . urlencode($e->getMessage()));
             exit();
@@ -89,6 +104,8 @@ class TagController
     public function submitUpdateTag()
     {
         try {
+            if ($_SESSION["isAdmin"]) {
+
             if (!isset($_POST['id'], $_POST['label'])) {
                 throw new \Exception("All required fields are not set.");
             }
@@ -102,6 +119,9 @@ class TagController
 
             header('location:tag?message=Tag updated successfully');
             exit();
+        } else {
+            header("location:login");
+        }
         } catch (\Exception $e) {
             header("Location: tag?error=" . urlencode($e->getMessage()));
             exit();
@@ -111,6 +131,8 @@ class TagController
     public function deleteTag()
     {
         try {
+            if ($_SESSION["isAdmin"]) {
+
             $tagId = isset($_GET['id']) ? $_GET['id'] : null;
 
             if (!$tagId) {
@@ -122,6 +144,9 @@ class TagController
 
             header("Location: tag?message=Tag deleted successfully");
             exit();
+        } else {
+            header("location:login");
+        }
         } catch (\Exception $e) {
             header("Location: tag?error=" . urlencode($e->getMessage()));
             exit();

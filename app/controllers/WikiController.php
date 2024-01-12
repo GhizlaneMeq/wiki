@@ -36,6 +36,9 @@ class WikiController
     public function addWiki()
     {
         try {
+        if ($_SESSION["isAuthor"]) {
+            
+
             if (!isset($_SESSION['userId'], $_POST['title'], $_POST['content'], $_POST['category'], $_POST['tags'], $_FILES['image'])) {
                 throw new \Exception("All required fields are not set.");
             }
@@ -61,6 +64,9 @@ class WikiController
 
             header("Location: my-wikis");
             exit();
+        } else {
+            header("location:login");
+        }
         } catch (\Exception $e) {
             header("Location: add-wiki?error=" . urlencode($e->getMessage()));
             exit();
@@ -174,7 +180,8 @@ class WikiController
     {
         try {
             if (!isset($_SESSION["userId"])) {
-                throw new \Exception("User not authenticated");
+                header("location:login");
+                exit();
             }
 
             $userSId = $_SESSION["userId"];
@@ -203,7 +210,7 @@ class WikiController
 
             include '../../views/wikiDetails.php';
         } catch (\Exception $e) {
-            header("Location:display-wiki&error=" . urlencode($e->getMessage()));
+            header("Location:home&error=" . urlencode($e->getMessage()));
             exit();
         }
     }

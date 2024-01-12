@@ -21,7 +21,7 @@
 
 
 
-         <!--    <section class="mt-8 p-6 bg-white rounded-md shadow-md">
+            <section class="mt-8 p-6 bg-white rounded-md shadow-md">
 
                 <div class="mt-4 w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                     <div class="flex items-center">
@@ -66,7 +66,7 @@
 
 
             </section>
- -->
+
         </div>
 
     </div>
